@@ -50,9 +50,9 @@ namespace Monument.SimpleInjector
 
         public IRegisterTimeContainer RegisterAll(Type service, IEnumerable<(Type type, Lifestyle lifestyle)> implementations)
         {
-#pragma warning disable CS0618 // Type or member is obsolete
-            container.RegisterCollection(service, implementations.Select(impl => Convert(impl.lifestyle).CreateRegistration(impl.type, container)));
-#pragma warning restore CS0618 // Type or member is obsolete
+            container.Collection.Register(
+                service, 
+                implementations.Select(impl => impl.type));
             return this;
         }
 
