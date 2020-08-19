@@ -22,19 +22,19 @@ namespace Monument
             foreach (var implementations in byInterface)
             {
                 var inter = implementations.Key;
-                
+
                 var composites = implementations.Where(type => type.IsComposite());
                 var decorators = implementations.Where(type => type.IsDecorator());
 
                 var normals = implementations.Except(composites).Except(decorators);
-                
+
                 if (composites.Count() > 1)
                 {
-                    throw new TypePatternRegistrationException("You cannot register more than one composite.");
+                    throw new TypePatternRegistrationException($"You cannot register more than one composite. type: {inter.FullName}");
                 }
-                if (!composites.Any() && !normals.Any())
+                if (!composites.Any() && !normals.Any() && !inter.IsOpenGeneric())
                 {
-                    throw new TypePatternRegistrationException("You cannot register only decorators.");
+                    throw new TypePatternRegistrationException($"You cannot register only decorators. type: {inter.FullName}");
                 }
 
                 if (composites.Any())
@@ -50,7 +50,7 @@ namespace Monument
                 {
                     container.RegisterAll(inter, normals);
                 }
-                
+
                 foreach (var decorator in decorators)
                 {
                     container.RegisterDecorator(inter, decorator);
