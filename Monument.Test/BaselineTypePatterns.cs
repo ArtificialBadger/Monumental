@@ -8,7 +8,8 @@ using System.Linq;
 namespace Monument.Test
 {
     [TestClass]
-    public class BaselineTypePatterns {
+    public class BaselineTypePatterns
+    {
         public static Type GetType<T>(params Type[] types)
             where T : class => Get<T>(types).GetType();
 
@@ -58,7 +59,8 @@ namespace Monument.Test
                  typeof(OpenGenericImplementation1<>)));
 
         [TestMethod]
-        public void OpenGenericDecoratorWithClosedDecoratorRegistration() { 
+        public void OpenGenericDecoratorWithClosedDecoratorRegistration()
+        {
             var instance = Get<IGenericInterface<SimpleImplementation1>>(
                 typeof(OpenGenericDecorator<>),
                 typeof(ClosedGenericDecorator),
@@ -72,7 +74,8 @@ namespace Monument.Test
         }
 
         [TestMethod]
-        public void MixedCollectionOfOpenAndClosedImplementations() {
+        public void MixedCollectionOfOpenAndClosedImplementations()
+        {
             var instances = Get<IEnumerable<IGenericInterface<SimpleImplementation1>>>(
                 typeof(OpenGenericImplementation1<>),
                 typeof(ClosedGenericImplementation1));
@@ -100,7 +103,8 @@ namespace Monument.Test
                 typeof(ClosedGenericImplementation1)));
 
         [TestMethod, Ignore]
-        public void WhereDoesTheDecoratorHide() {
+        public void WhereDoesTheDecoratorHide()
+        {
             var instance = Get<IGenericInterface<SimpleImplementation1>>(
                 typeof(ClosedGenericComposite),
                 typeof(OpenGenericImplementation1<>),
@@ -120,43 +124,72 @@ namespace Monument.Test
                  typeof(OpenGenericImplementation1<>),
                  typeof(OpenGenericImplementation2<>),
                  typeof(OpenGenericImplementation3<>)));
+
+        [TestMethod]
+        public void ClosedGenericListRegistration() { 
+            Assert.AreEqual(2, Get<IEnumerable<IGenericInterface<SimpleImplementation2>>>(
+                typeof(OpenGenericImplementation1<>),
+                typeof(ClosedGenericImplementation1),
+                typeof(ClosedGenericImplementation4)).Count());
+            Assert.AreEqual(2, Get<IEnumerable<IGenericInterface<SimpleImplementation1>>>(
+                typeof(OpenGenericImplementation1<>),
+                typeof(ClosedGenericImplementation1),
+                typeof(ClosedGenericImplementation4)).Count());
+        }
+
+        [TestMethod]
+        public void ClosedGenericRegistration() {
+            Assert.IsNotNull(Get<IGenericInterface<SimpleImplementation2>>(
+                typeof(ClosedGenericImplementation1),
+                typeof(ClosedGenericImplementation4)));
+            Assert.IsNotNull(Get<IGenericInterface<SimpleImplementation1>>(
+                typeof(ClosedGenericImplementation1),
+                typeof(ClosedGenericImplementation4)));
+        }
     }
 
-    public class SimpleImplementation1 : ISimpleInterface{}
-    public class SimpleImplementation2 : ISimpleInterface{}
-    public class SimpleImplementation3 : ISimpleInterface{}
-    public class OpenGenericImplementation1<T> : IGenericInterface<T>{}
-    public class OpenGenericImplementation2<T> : IGenericInterface<T>{}
-    public class OpenGenericImplementation3<T> : IGenericInterface<T>{}
-    public class ClosedGenericImplementation1: IGenericInterface<SimpleImplementation1>{}
-    public class ClosedGenericImplementation2 : IGenericInterface<SimpleImplementation1>{}
-    public class ClosedGenericImplementation3 : IGenericInterface<SimpleImplementation1>{}
-    public class SimpleComposite : ISimpleInterface{
+    public class SimpleImplementation1 : ISimpleInterface { }
+    public class SimpleImplementation2 : ISimpleInterface { }
+    public class SimpleImplementation3 : ISimpleInterface { }
+    public class OpenGenericImplementation1<T> : IGenericInterface<T> { }
+    public class OpenGenericImplementation2<T> : IGenericInterface<T> { }
+    public class OpenGenericImplementation3<T> : IGenericInterface<T> { }
+    public class ClosedGenericImplementation1 : IGenericInterface<SimpleImplementation1> { }
+    public class ClosedGenericImplementation2 : IGenericInterface<SimpleImplementation1> { }
+    public class ClosedGenericImplementation3 : IGenericInterface<SimpleImplementation1> { }
+    public class ClosedGenericImplementation4 : IGenericInterface<SimpleImplementation2> { }
+    public class SimpleComposite : ISimpleInterface
+    {
         public IEnumerable<ISimpleInterface> Inner { get; }
         public SimpleComposite(IEnumerable<ISimpleInterface> d) { Inner = d; }
     }
-    public class OpenGenericComposite<T> : IGenericInterface<T>{
+    public class OpenGenericComposite<T> : IGenericInterface<T>
+    {
         public IEnumerable<IGenericInterface<T>> Inner { get; }
         public OpenGenericComposite(IEnumerable<IGenericInterface<T>> d) { Inner = d; }
     }
-    public class ClosedGenericComposite : IGenericInterface<SimpleImplementation1>{
+    public class ClosedGenericComposite : IGenericInterface<SimpleImplementation1>
+    {
         public IEnumerable<IGenericInterface<SimpleImplementation1>> Inner { get; }
         public ClosedGenericComposite(IEnumerable<IGenericInterface<SimpleImplementation1>> d) { Inner = d; }
     }
-    public class SimpleDecorator : ISimpleInterface{
+    public class SimpleDecorator : ISimpleInterface
+    {
         public ISimpleInterface Inner { get; }
         public SimpleDecorator(ISimpleInterface d) { Inner = d; }
     }
-    public class OpenGenericDecorator<T> : IGenericInterface<T>{
+    public class OpenGenericDecorator<T> : IGenericInterface<T>
+    {
         public IGenericInterface<T> Inner { get; }
 
         public OpenGenericDecorator(IGenericInterface<T> d) { Inner = d; }
     }
-    public class ClosedGenericDecorator : IGenericInterface<SimpleImplementation1>{
+    public class ClosedGenericDecorator : IGenericInterface<SimpleImplementation1>
+    {
         public IGenericInterface<SimpleImplementation1> Inner { get; }
 
         public ClosedGenericDecorator(IGenericInterface<SimpleImplementation1> d) { this.Inner = d; }
     }
-    public interface ISimpleInterface{}
-    public interface IGenericInterface<T>{}
+    public interface ISimpleInterface { }
+    public interface IGenericInterface<T> { }
 }

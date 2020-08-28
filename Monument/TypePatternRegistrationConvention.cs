@@ -41,9 +41,27 @@ namespace Monument
                 {
                     container.Register(inter, composites.Single());
                 }
-                else if (normals.Count() == 1)
+                else
                 {
-                    container.Register(inter, normals.Single());
+                    if (inter.IsGenericType) {
+                        foreach (var normalSingleGroup in normals.GroupBy(type => type.GetInterfaces().Single().GetGenericArguments())) {
+                            if (normalSingleGroup.Count() == 1) {
+                                var normal = normalSingleGroup.Single();
+
+                                if (!normal.IsOpenGeneric() && !normals.Any(n => n.IsOpenGeneric())) {
+                                    container.Register(normal.GetInterfaces().Single(), normal);
+                                } else if (normal.IsOpenGeneric()) {
+                                    container.Register(inter, normal);
+                                }
+
+                            }
+                        }
+                    } else {
+                        if (normals.Count() == 1) {
+                            container.Register(inter, normals.Single());
+                        }
+                    }
+
                 }
 
                 if (normals.Any())
