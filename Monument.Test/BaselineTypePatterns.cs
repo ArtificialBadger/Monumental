@@ -126,10 +126,26 @@ namespace Monument.Test
                  typeof(OpenGenericImplementation3<>)));
 
         [TestMethod]
-        public void ClosedGenericRegistration()
-            => Assert.AreEqual(typeof(ClosedGenericImplementation4), GetType<IGenericInterface<SimpleImplementation2>>(
+        public void ClosedGenericListRegistration() { 
+            Assert.AreEqual(2, Get<IEnumerable<IGenericInterface<SimpleImplementation2>>>(
+                typeof(OpenGenericImplementation1<>),
+                typeof(ClosedGenericImplementation1),
+                typeof(ClosedGenericImplementation4)).Count());
+            Assert.AreEqual(2, Get<IEnumerable<IGenericInterface<SimpleImplementation1>>>(
+                typeof(OpenGenericImplementation1<>),
+                typeof(ClosedGenericImplementation1),
+                typeof(ClosedGenericImplementation4)).Count());
+        }
+
+        [TestMethod]
+        public void ClosedGenericRegistration() {
+            Assert.IsNotNull(Get<IGenericInterface<SimpleImplementation2>>(
                 typeof(ClosedGenericImplementation1),
                 typeof(ClosedGenericImplementation4)));
+            Assert.IsNotNull(Get<IGenericInterface<SimpleImplementation1>>(
+                typeof(ClosedGenericImplementation1),
+                typeof(ClosedGenericImplementation4)));
+        }
     }
 
     public class SimpleImplementation1 : ISimpleInterface { }
