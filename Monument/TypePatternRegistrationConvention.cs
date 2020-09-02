@@ -22,12 +22,12 @@ namespace Monument
             foreach (var implementations in byInterface)
             {
                 var inter = implementations.Key;
-                
+
                 var composites = implementations.Where(type => type.IsComposite());
                 var decorators = implementations.Where(type => type.IsDecorator());
 
                 var normals = implementations.Except(composites).Except(decorators);
-                
+
                 if (composites.Count() > 1)
                 {
                     throw new TypePatternRegistrationException("You cannot register more than one composite.");
@@ -43,21 +43,30 @@ namespace Monument
                 }
                 else
                 {
-                    if (inter.IsGenericType) {
-                        foreach (var normalSingleGroup in normals.GroupBy(type => type.GetInterfaces().Single().GetGenericArguments())) {
-                            if (normalSingleGroup.Count() == 1) {
+                    if (inter.IsGenericType)
+                    {
+                        foreach (var normalSingleGroup in normals.GroupBy(type => type.GetInterfaces().Single().GetGenericArguments(), new TypeArrayEqualityComparer()))
+                        {
+                            if (normalSingleGroup.Count() == 1)
+                            {
                                 var normal = normalSingleGroup.Single();
 
-                                if (!normal.IsOpenGeneric() && !normals.Any(n => n.IsOpenGeneric())) {
+                                if (!normal.IsOpenGeneric() && !normals.Any(n => n.IsOpenGeneric()))
+                                {
                                     container.Register(normal.GetInterfaces().Single(), normal);
-                                } else if (normal.IsOpenGeneric()) {
+                                }
+                                else if (normal.IsOpenGeneric())
+                                {
                                     container.Register(inter, normal);
                                 }
 
                             }
                         }
-                    } else {
-                        if (normals.Count() == 1) {
+                    }
+                    else
+                    {
+                        if (normals.Count() == 1)
+                        {
                             container.Register(inter, normals.Single());
                         }
                     }
@@ -68,7 +77,7 @@ namespace Monument
                 {
                     container.RegisterAll(inter, normals);
                 }
-                
+
                 foreach (var decorator in decorators)
                 {
                     container.RegisterDecorator(inter, decorator);
@@ -76,6 +85,29 @@ namespace Monument
             }
 
             return container;
+        }
+
+        private class TypeArrayEqualityComparer : IEqualityComparer<Type[]>
+        {
+            public bool Equals(Type[] x, Type[] y)
+            {
+                return x.SequenceEqual(y);
+            }
+
+            public int GetHashCode(Type[] obj)
+            {
+                unchecked
+                {
+                    int hash = 17;
+
+                    foreach (var item in obj)
+                    {
+                        hash = hash * 23 + item.GetHashCode();
+                    }
+
+                    return hash;
+                }
+            }
         }
     }
 }
