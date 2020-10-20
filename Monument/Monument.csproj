@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Description>A IoC container agnostic dependency injection registration engine that prioritizes using conventions on type-patterns over other registration methods.</Description>
   </PropertyGroup>
 
 </Project>
