@@ -8,6 +8,8 @@ namespace Monument
     {
         public static Type ToTypeKey(this Type type) => type.IsGenericType ? type.GetGenericTypeDefinition() : type;
 
+        public static Type ToOpenGenericTypeKey(this Type type) => type.IsOpenGeneric() ? type.GetGenericTypeDefinition() : type;
+
         public static bool ImplementsInterface(this Type type, Type parentType) => parentType.IsInterface
             && (parentType.IsAssignableFrom(type)
             || (parentType.IsGenericType
@@ -21,11 +23,11 @@ namespace Monument
             && type.GetConstructors().Single().GetParameters()
                 .Where(p => p.ParameterType.IsGenericType)
                 .Where(p => p.ParameterType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
-                .Any(p => p.ParameterType.GetGenericArguments().Single().ToTypeKey() == type.GetInterfaces().Single().ToTypeKey());
+                .Any(p => p.ParameterType.GetGenericArguments().Single().ToOpenGenericTypeKey() == type.GetInterfaces().Single().ToOpenGenericTypeKey());
 
         public static bool IsDecorator(this Type type) => type.HasInterfaces()
             && type.GetConstructors().Single().GetParameters()
-                .Any(p => p.ParameterType == type.GetInterfaces().Single());
+                .Any(p => p.ParameterType.ToOpenGenericTypeKey() == type.GetInterfaces().Single().ToOpenGenericTypeKey());
 
         public static Lifestyle GetLifestyle(this Type type) => Lifestyle.Transient;
     }
