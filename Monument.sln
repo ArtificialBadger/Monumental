@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31521.260
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monument", "Monument\Monument.csproj", "{E12BE1E7-5BDA-4FAD-8DEF-5175A3CD5DA0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monument.SimpleInjector", "Monument.SimpleInjector\Monument.SimpleInjector.csproj", "{D319C97A-C3B1-4F6B-B88C-C738161A9C3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monument.Test", "Monument.Test\Monument.Test.csproj", "{CA1BAF87-77F8-472B-9DCF-3CEF00153B30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monument.Test", "Monument.Test\Monument.Test.csproj", "{CA1BAF87-77F8-472B-9DCF-3CEF00153B30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obelisk", "Obelisk\Obelisk.csproj", "{46079D57-B79A-4B9E-9450-2CEECB1676F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{CA1BAF87-77F8-472B-9DCF-3CEF00153B30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA1BAF87-77F8-472B-9DCF-3CEF00153B30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA1BAF87-77F8-472B-9DCF-3CEF00153B30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46079D57-B79A-4B9E-9450-2CEECB1676F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46079D57-B79A-4B9E-9450-2CEECB1676F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46079D57-B79A-4B9E-9450-2CEECB1676F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46079D57-B79A-4B9E-9450-2CEECB1676F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
