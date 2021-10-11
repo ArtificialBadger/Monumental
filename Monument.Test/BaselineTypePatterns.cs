@@ -1,5 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Monument.SimpleInjector;
+using Monument.Conventions;
+using Monument.Containers;
 using SimpleInjector;
 using System;
 using System.Collections.Generic;
