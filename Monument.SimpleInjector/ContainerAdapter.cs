@@ -51,9 +51,15 @@ namespace Monument.SimpleInjector
 
         public IRegisterTimeContainer RegisterAll(Type service, IEnumerable<(Type type, Lifestyle lifestyle)> implementations)
         {
-            container.Collection.Register(
-                service, 
-                implementations.Select(impl => impl.type));
+            foreach (var implementationsByLifestyle in implementations.GroupBy(imp => imp.lifestyle))
+            {
+                container.Collection.Register(
+                    service,
+                    implementationsByLifestyle.Select(impl => impl.type),
+                    Convert(implementationsByLifestyle.Key)
+                    );
+            }
+
             return this;
         }
 

@@ -74,6 +74,7 @@ namespace Monument.Conventions
 
                 }
 
+                // What is this thing for? The above should handle it?
                 if (normals.Any())
                 {
                     container.RegisterAll(inter, normals);
