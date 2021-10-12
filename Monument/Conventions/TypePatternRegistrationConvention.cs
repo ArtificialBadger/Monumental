@@ -10,6 +10,11 @@ namespace Monument.Conventions
     {
         public IRegisterTimeContainer Register(IEnumerable<Type> types, IRegisterTimeContainer container)
         {
+            return RegisterTypes(types, container);
+        }
+
+        public static IRegisterTimeContainer RegisterTypes(IEnumerable<Type> types, IRegisterTimeContainer container)
+        {
             var implementationTypes = types
                 .Where(type => !type.IsInterface)
                 .Where(type => !type.IsAbstract)

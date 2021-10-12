@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Monument.Conventions;
 using Monument.SimpleInjector;
+using Monument.Types.Utility;
 using SimpleInjector;
 using System;
 using System.Collections.Generic;
@@ -34,7 +35,7 @@ namespace Obelisk
                         .AddControllerActivation();
             });
 
-            new TypePatternRegistrationConvention().Register(typeof(Monument.Types.Utility.Animals).Assembly.GetTypes(), new ContainerAdapter(container));
+            TypePatternRegistrationConvention.RegisterTypes(typeof(EntryPoint).Assembly.GetTypes(), new ContainerAdapter(container));
 
             services.AddMvcCore();
         }
