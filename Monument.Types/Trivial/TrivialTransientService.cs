@@ -5,8 +5,8 @@ using System.Text;
 
 namespace Monument.Types.Trivial
 {
-    [Singleton]
-    public sealed class TrivialService : ITrivialService
+    [Transient]
+    public sealed class TrivialTransientService : ITrivialTransientService
     {
         private int count;
 

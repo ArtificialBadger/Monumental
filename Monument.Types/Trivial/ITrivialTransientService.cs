@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Monument.Types.Trivial
 {
-    public interface ITrivialService
+    public interface ITrivialTransientService
     {
         string Serve();
     }

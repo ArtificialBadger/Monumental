@@ -8,22 +8,23 @@ using System.Threading.Tasks;
 
 namespace Obelisk
 {
-    [Route("[controller]")]
+    [Route("")]
     [ApiController]
     public class SampleController : ControllerBase
     {
-        private readonly ITrivialService trivialService;
+        private readonly ITrivialSingletonService trivialSingletonService;
+        private readonly ITrivialTransientService trivialTransientService;
 
-        public SampleController(ITrivialService trivialService)
+        public SampleController(ITrivialSingletonService trivialSingletonService, ITrivialTransientService trivialTransientService)
         {
-            this.trivialService = trivialService;
+            this.trivialSingletonService = trivialSingletonService;
+            this.trivialTransientService = trivialTransientService;
         }
-
 
         [HttpGet("")]
         public ActionResult<string> TestEndpoint()
         {
-            return Ok(this.trivialService.Serve());
+            return Ok($"Singleton: {this.trivialSingletonService.Serve()} Transient: {this.trivialTransientService.Serve()}");
         }
     }
 }
