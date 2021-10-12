@@ -34,9 +34,7 @@ namespace Obelisk
                         .AddControllerActivation();
             });
 
-            var adapter = new ContainerAdapter(container);
-            var convention = new TypePatternRegistrationConvention();
-            convention.Register(typeof(Monument.Types.Trivial.ITrivialSingletonService).Assembly.GetTypes(), adapter);
+            new TypePatternRegistrationConvention().Register(typeof(Monument.Types.Utility.Animals).Assembly.GetTypes(), new ContainerAdapter(container));
 
             services.AddMvcCore();
         }
