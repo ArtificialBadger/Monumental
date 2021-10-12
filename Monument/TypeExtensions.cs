@@ -54,6 +54,10 @@ namespace Monument
                     {
                         lifestyle = Lifestyle.Transient;
                     }
+                    else if (attribute.IsAssignableFrom(typeof(ScopedAttribute)))
+                    {
+                        lifestyle = Lifestyle.Scoped;
+                    }
                 }
             }
 

@@ -13,18 +13,20 @@ namespace Obelisk
     public class SampleController : ControllerBase
     {
         private readonly ITrivialSingletonService trivialSingletonService;
+        private readonly ITrivialScopedService trivialScopedService;
         private readonly ITrivialTransientService trivialTransientService;
 
-        public SampleController(ITrivialSingletonService trivialSingletonService, ITrivialTransientService trivialTransientService)
+        public SampleController(ITrivialSingletonService trivialSingletonService, ITrivialScopedService trivialScopedService, ITrivialTransientService trivialTransientService)
         {
             this.trivialSingletonService = trivialSingletonService;
+            this.trivialScopedService = trivialScopedService;
             this.trivialTransientService = trivialTransientService;
         }
 
         [HttpGet("")]
         public ActionResult<string> TestEndpoint()
         {
-            return Ok($"Singleton: {this.trivialSingletonService.Serve()} Transient: {this.trivialTransientService.Serve()}");
+            return Ok(new { Singleton = this.trivialSingletonService.Serve(), Scoped = this.trivialScopedService.Serve(), Transient = this.trivialTransientService.Serve() });
         }
     }
 }
