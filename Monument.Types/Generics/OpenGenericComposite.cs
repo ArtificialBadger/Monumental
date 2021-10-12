@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Monument.Types.Generics
+namespace Monument.Types
 {
     public class OpenGenericComposite<T> : IGenericInterface<T>
     {

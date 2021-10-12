@@ -3,13 +3,6 @@ using System.Collections.Generic;
 
 namespace Monument.Types
 {
-
-
-    public class ClosedGenericComposite : IGenericInterface<SimpleImplementation1>
-    {
-        public IEnumerable<IGenericInterface<SimpleImplementation1>> Inner { get; }
-        public ClosedGenericComposite(IEnumerable<IGenericInterface<SimpleImplementation1>> d) { Inner = d; }
-    }
     public class SimpleDecorator : ISimpleInterface
     {
         public ISimpleInterface Inner { get; }

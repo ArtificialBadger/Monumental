@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Monument.Types.Simple
+namespace Monument.Types
 {
     public class SimpleComposite : ISimpleInterface
     {

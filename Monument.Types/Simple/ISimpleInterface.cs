@@ -5,6 +5,4 @@ using System.Text;
 namespace Monument.Types
 {
     public interface ISimpleInterface { }
-    {
-    }
 }
