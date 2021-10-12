@@ -30,7 +30,12 @@ namespace Obelisk
         [HttpGet("")]
         public ActionResult<string> TestEndpoint()
         {
-            return Ok(new { Singleton = this.trivialSingletonService.Serve(), Scoped = this.trivialScopedService.Serve(), Transient = this.trivialTransientService.Serve() });
+            var responses = new[]
+            {
+                new { Singleton = this.trivialSingletonService.Serve(), Scoped = this.trivialScopedService.Serve(), Transient = this.trivialTransientService.Serve() },
+                new { Singleton = this.trivialSingletonService.Serve(), Scoped = this.trivialScopedService.Serve(), Transient = this.trivialTransientService.Serve() }
+            };
+            return Ok(responses);
         }
     }
 }

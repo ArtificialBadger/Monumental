@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monument.SimpleInjector", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monument.Test", "Monument.Test\Monument.Test.csproj", "{CA1BAF87-77F8-472B-9DCF-3CEF00153B30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obelisk", "Obelisk\Obelisk.csproj", "{46079D57-B79A-4B9E-9450-2CEECB1676F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obelisk.SimpleInjector", "Obelisk\Obelisk.SimpleInjector.csproj", "{46079D57-B79A-4B9E-9450-2CEECB1676F3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monument.Types", "Monument.Types\Monument.Types.csproj", "{E0BF58CA-AAAA-40A5-A713-32AC97FF0178}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obelisk.DotNetContainer", "Obelisk.DotNetContainer\Obelisk.DotNetContainer.csproj", "{AAC2C82F-84D5-4141-A900-FD885C75B1E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{E0BF58CA-AAAA-40A5-A713-32AC97FF0178}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0BF58CA-AAAA-40A5-A713-32AC97FF0178}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0BF58CA-AAAA-40A5-A713-32AC97FF0178}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAC2C82F-84D5-4141-A900-FD885C75B1E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAC2C82F-84D5-4141-A900-FD885C75B1E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAC2C82F-84D5-4141-A900-FD885C75B1E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAC2C82F-84D5-4141-A900-FD885C75B1E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
