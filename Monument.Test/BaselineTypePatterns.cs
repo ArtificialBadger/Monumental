@@ -1,7 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Monument.SimpleInjector;
 using Monument.Conventions;
-using Monument.Containers;
+using Monument.Types;
 using SimpleInjector;
 using System;
 using System.Collections.Generic;
@@ -162,57 +162,5 @@ namespace Monument.Test
             Assert.AreEqual(typeof(ClosedGenericAdapter), GetType<IGenericInterface<SimpleImplementation1>>(
                 typeof(ClosedGenericAdapter),
                 typeof(ClosedGenericImplementation4)));
-    }
-
-    public class SimpleImplementation1 : ISimpleInterface { }
-    public class SimpleImplementation2 : ISimpleInterface { }
-    public class SimpleImplementation3 : ISimpleInterface { }
-    public class OpenGenericImplementation1<T> : IGenericInterface<T> { }
-    public class OpenGenericImplementation2<T> : IGenericInterface<T> { }
-    public class OpenGenericImplementation3<T> : IGenericInterface<T> { }
-    public class ClosedGenericImplementation1 : IGenericInterface<SimpleImplementation1> { }
-    public class ClosedGenericImplementation2 : IGenericInterface<SimpleImplementation1> { }
-    public class ClosedGenericImplementation3 : IGenericInterface<SimpleImplementation1> { }
-    public class ClosedGenericImplementation4 : IGenericInterface<SimpleImplementation2> { }
-    public class SimpleComposite : ISimpleInterface
-    {
-        public IEnumerable<ISimpleInterface> Inner { get; }
-        public SimpleComposite(IEnumerable<ISimpleInterface> d) { Inner = d; }
-    }
-    public class OpenGenericComposite<T> : IGenericInterface<T>
-    {
-        public IEnumerable<IGenericInterface<T>> Inner { get; }
-        public OpenGenericComposite(IEnumerable<IGenericInterface<T>> d) { Inner = d; }
-    }
-    public class ClosedGenericComposite : IGenericInterface<SimpleImplementation1>
-    {
-        public IEnumerable<IGenericInterface<SimpleImplementation1>> Inner { get; }
-        public ClosedGenericComposite(IEnumerable<IGenericInterface<SimpleImplementation1>> d) { Inner = d; }
-    }
-    public class SimpleDecorator : ISimpleInterface
-    {
-        public ISimpleInterface Inner { get; }
-        public SimpleDecorator(ISimpleInterface d) { Inner = d; }
-    }
-    public class OpenGenericDecorator<T> : IGenericInterface<T>
-    {
-        public IGenericInterface<T> Inner { get; }
-
-        public OpenGenericDecorator(IGenericInterface<T> d) { Inner = d; }
-    }
-    public class ClosedGenericDecorator : IGenericInterface<SimpleImplementation1>
-    {
-        public IGenericInterface<SimpleImplementation1> Inner { get; }
-
-        public ClosedGenericDecorator(IGenericInterface<SimpleImplementation1> d) { this.Inner = d; }
-    }
-    public interface ISimpleInterface { }
-    public interface IGenericInterface<T> { }
-
-    public class ClosedGenericAdapter : IGenericInterface<SimpleImplementation1>
-    {
-        public ClosedGenericAdapter(IGenericInterface<SimpleImplementation2> inner) { Inner = inner; }
-
-        public IGenericInterface<SimpleImplementation2> Inner { get; }
     }
 }
