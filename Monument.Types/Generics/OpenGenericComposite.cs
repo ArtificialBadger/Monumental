@@ -7,6 +7,6 @@ namespace Monument.Types
     public class OpenGenericComposite<T> : IGenericInterface<T>
     {
         public IEnumerable<IGenericInterface<T>> Inner { get; }
-        public OpenGenericComposite(IEnumerable<IGenericInterface<T>> d) { Inner = d; }
+        public OpenGenericComposite(IEnumerable<IGenericInterface<T>> nodes) { Inner = nodes; }
     }
 }

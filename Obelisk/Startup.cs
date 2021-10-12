@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Monument.Conventions;
+using Monument.SimpleInjector;
 using SimpleInjector;
 using System;
 using System.Collections.Generic;
@@ -31,6 +33,10 @@ namespace Obelisk
                 options.AddAspNetCore()
                         .AddControllerActivation();
             });
+
+            var adapter = new ContainerAdapter(container);
+            var convention = new TypePatternRegistrationConvention();
+            convention.Register(typeof(Monument.Types.Trivial.ITrivialService).Assembly.GetTypes(), adapter);
 
             services.AddMvcCore();
         }

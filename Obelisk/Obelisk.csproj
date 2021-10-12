@@ -11,4 +11,9 @@
     <PackageReference Include="SimpleInjector.Integration.ServiceCollection" Version="5.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Monument.SimpleInjector\Monument.SimpleInjector.csproj" />
+    <ProjectReference Include="..\Monument.Types\Monument.Types.csproj" />
+  </ItemGroup>
+
 </Project>
