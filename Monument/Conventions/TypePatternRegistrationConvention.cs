@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Monument.Attributes;
 using Monument.Containers;
 
 namespace Monument.Conventions
@@ -15,7 +16,8 @@ namespace Monument.Conventions
                 .Where(type => type.IsPublic)
                 .Where(type => !type.IsNested)
                 .Where(type => type.GetInterfaces().Count() == 1)
-                .Where(type => type.GetConstructors().Count() == 1);
+                .Where(type => type.GetConstructors().Count() == 1)
+                .Where(type => !type.CustomAttributes.Any(a => a.AttributeType == typeof(IgnoreAttribute)));
 
             var byInterface = implementationTypes
                 .GroupBy(type => type.GetInterfaces().Single().ToTypeKey());
