@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Monument.Types.Trivial;
+using Obelisk.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +17,14 @@ namespace Obelisk
         private readonly ITrivialScopedService trivialScopedService;
         private readonly ITrivialTransientService trivialTransientService;
 
-        public SampleController(ITrivialSingletonService trivialSingletonService, ITrivialScopedService trivialScopedService, ITrivialTransientService trivialTransientService)
+        private readonly IService service;
+
+        public SampleController(ITrivialSingletonService trivialSingletonService, ITrivialScopedService trivialScopedService, ITrivialTransientService trivialTransientService, IService service)
         {
             this.trivialSingletonService = trivialSingletonService;
             this.trivialScopedService = trivialScopedService;
             this.trivialTransientService = trivialTransientService;
+            this.service = service;
         }
 
         [HttpGet("")]
