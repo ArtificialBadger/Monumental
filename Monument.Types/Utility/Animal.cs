@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Monument.Types.Utility
 {
-    public enum Animals
+    public enum Animal
     {
         Cat = 0,
         Dog = 1,
