@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Monument.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -29,6 +30,34 @@ namespace Monument
             && type.GetConstructors().Single().GetParameters()
                 .Any(p => p.ParameterType.ToOpenGenericTypeKey() == type.GetInterfaces().Single().ToOpenGenericTypeKey());
 
-        public static Lifestyle GetLifestyle(this Type type) => Lifestyle.Transient;
+        public static Lifestyle GetLifestyle(this Type type)
+        {
+            var lifestyle = Lifestyle.Transient;
+
+            if (type.CustomAttributes.Count() > 0)
+            {
+                var lifestyleAttributes = type.CustomAttributes.Where(a => a.AttributeType.IsSubclassOf(typeof(LifestyleAttribute)));
+
+                if (lifestyleAttributes.Count() > 1)
+                {
+                    throw new Exception("Too Many Lifestyles"); //TODO ArtificialBadger: custom exception type
+                }
+                else if (lifestyleAttributes.Any())
+                {
+                    var attribute = lifestyleAttributes.First().AttributeType;
+                    
+                    if (attribute.IsAssignableFrom(typeof(SingletonAttribute)))
+                    {
+                        lifestyle = Lifestyle.Singleton;
+                    }
+                    else if (attribute.IsAssignableFrom(typeof(TransientAttribute)))
+                    {
+                        lifestyle = Lifestyle.Transient;
+                    }
+                }
+            }
+
+            return lifestyle;
+        }
     }
 }
