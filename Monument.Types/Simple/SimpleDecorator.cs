@@ -7,6 +7,6 @@ namespace Monument.Types
     public class SimpleDecorator : ISimpleInterface
     {
         public ISimpleInterface Inner { get; }
-        public SimpleDecorator(ISimpleInterface d) { Inner = d; }
+        public SimpleDecorator(ISimpleInterface decoratedSimpleInterface) { Inner = decoratedSimpleInterface; }
     }
 }

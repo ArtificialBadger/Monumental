@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Monument.Conventions;
 using Monument.DotNetContainer;
 using Monument.Types;
+using Monument.Types.OpenGeneric;
 using Monument.Types.Utility;
 using Obelisk.Services;
 using System;
@@ -27,20 +28,20 @@ namespace Obelisk.DotNetContainer
             {
                 options.Filters.Add(new ProducesAttribute("application/json"));
             });
-
+ 
             var types = typeof(EntryPoint).Assembly.GetTypes()
                 .Union(typeof(IService).Assembly.GetTypes())
                 .Except(new[] { 
-                    typeof(OpenGenericComposite<>), 
-                    typeof(OpenGenericDecorator<>),
+                    typeof(OpenGenericDecorator<>), // Generic Decorators not supported
                     typeof(ClosedGenericDecorator),
                     typeof(ClosedGenericAdapter),
-                    typeof(ClosedGenericImplementation1),
+                    typeof(ClosedGenericImplementation1), // Closed Generic Implementations of Open Generics not supported
                     typeof(ClosedGenericImplementation2),
                     typeof(ClosedGenericImplementation3),
                     typeof(ClosedGenericImplementation4),
-                    typeof(SimpleComposite),
-                    typeof(SimpleDecorator),
+                    typeof(SimpleComposite), // Composites not supported (Mistakingly causes circular dependencies)
+                    typeof(SimpleDecorator), // Decorators not supported (Potentially can add support with Scrutor)
+                    typeof(ClosedGenericImplementation) // Closed Generic Implementations of Open Generic Interfaces are not supported (Simple Injector does indeed support this)
                 });
 
             TypePatternRegistrationConvention.RegisterTypes(types, new DotNetContainerAdapter(services));

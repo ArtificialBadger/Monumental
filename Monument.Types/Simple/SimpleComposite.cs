@@ -7,6 +7,7 @@ namespace Monument.Types
     public class SimpleComposite : ISimpleInterface
     {
         public IEnumerable<ISimpleInterface> Inner { get; }
+
         public SimpleComposite(IEnumerable<ISimpleInterface> simpleImplementations) { Inner = simpleImplementations; }
     }
 }
