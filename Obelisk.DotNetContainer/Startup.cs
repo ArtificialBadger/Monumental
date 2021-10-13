@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Monument.Conventions;
@@ -22,9 +23,25 @@ namespace Obelisk.DotNetContainer
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(new ProducesAttribute("application/json"));
+            });
+
             var types = typeof(EntryPoint).Assembly.GetTypes()
                 .Union(typeof(IService).Assembly.GetTypes())
-                .Except(new[] { typeof(OpenGenericDecorator<>), typeof(ClosedGenericDecorator)});
+                .Except(new[] { 
+                    typeof(OpenGenericComposite<>), 
+                    typeof(OpenGenericDecorator<>),
+                    typeof(ClosedGenericDecorator),
+                    typeof(ClosedGenericAdapter),
+                    typeof(ClosedGenericImplementation1),
+                    typeof(ClosedGenericImplementation2),
+                    typeof(ClosedGenericImplementation3),
+                    typeof(ClosedGenericImplementation4),
+                    typeof(SimpleComposite),
+                    typeof(SimpleDecorator),
+                });
 
             TypePatternRegistrationConvention.RegisterTypes(types, new DotNetContainerAdapter(services));
         }
@@ -36,14 +53,12 @@ namespace Obelisk.DotNetContainer
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapControllers();
             });
         }
     }

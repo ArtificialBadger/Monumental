@@ -56,8 +56,6 @@ namespace Obelisk
             {
                 endpoints.MapControllers();
             });
-
-            container.Verify();
         }
     }
 }
