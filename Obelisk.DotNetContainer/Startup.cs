@@ -48,12 +48,11 @@ namespace Obelisk.DotNetContainer
                 });
 
             // Due to the splitting of IServiceCollection and IServiceProvider, we cannot use Factory Registrations
-
             TypePatternRegistrationConvention.RegisterTypes(types, new DotNetRegisterTimeContainerAdapter(services));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IRegisterTimeContainer container)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
