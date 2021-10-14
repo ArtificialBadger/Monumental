@@ -43,8 +43,8 @@ namespace Obelisk
         {
             var responses = new[]
             {
-                new { Factory = this.transientServiceFactory.Produce().Serve(), Singleton = this.trivialSingletonService.Serve(), Scoped = this.trivialScopedService.Serve(), Transient = this.trivialTransientService.Serve() },
-                new { Factory = this.transientServiceFactory.Produce().Serve(), Singleton = this.trivialSingletonService.Serve(), Scoped = this.trivialScopedService.Serve(), Transient = this.trivialTransientService.Serve() }
+                new { Factory = this.transientServiceFactory.Produce().Serve(), Transient = this.trivialTransientService.Serve(), Scoped = this.trivialScopedService.Serve(), Singleton = this.trivialSingletonService.Serve() },
+                new { Factory = this.transientServiceFactory.Produce().Serve(), Transient = this.trivialTransientService.Serve(), Scoped = this.trivialScopedService.Serve(), Singleton = this.trivialSingletonService.Serve() },
             };
             return Ok(responses);
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Monument.Attributes;
 using Monument.Containers;
@@ -9,12 +10,12 @@ namespace Monument.Conventions
 {
     public class TypePatternRegistrationConvention : IRegistrationConvention
     {
-        public IRegisterTimeContainer Register(IEnumerable<Type> types, IRegisterTimeContainer container, bool autoFuncFactory = false)
+        public IRegisterTimeContainer Register(IEnumerable<Type> types, IRegisterTimeContainer container)
         {
             return RegisterTypes(types, container);
         }
 
-        public static IRegisterTimeContainer RegisterTypes(IEnumerable<Type> types, IRegisterTimeContainer container, bool autoFuncFactory = false)
+        public static IRegisterTimeContainer RegisterTypes(IEnumerable<Type> types, IRegisterTimeContainer container)
         {
             var implementationTypes = types
                 .Where(type => !type.IsInterface)
@@ -27,11 +28,6 @@ namespace Monument.Conventions
 
             var byInterface = implementationTypes
                 .GroupBy(type => type.GetInterfaces().Single().ToTypeKey());
-
-            if (autoFuncFactory || true)
-            {
-                container.Register(typeof(IFactory<>), typeof(Factory<>));
-            }
 
             foreach (var implementations in byInterface)
             {
@@ -101,6 +97,12 @@ namespace Monument.Conventions
             }
 
             return container;
+        }
+
+        public void RegisterFactory(IRegisterTimeContainer registerTimeContainer, IRuntimeContainer runtimeContainer)
+        {
+            registerTimeContainer.Register(typeof(IRuntimeContainer), () => runtimeContainer, Lifestyle.Singleton);
+            registerTimeContainer.Register(typeof(IFactory<>), typeof(Factory<>));
         }
 
         private class TypeArrayEqualityComparer : IEqualityComparer<Type[]>
