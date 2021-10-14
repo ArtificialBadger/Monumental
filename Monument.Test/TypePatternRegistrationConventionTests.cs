@@ -25,15 +25,15 @@ namespace Monument.Test
 
         [TestMethod]
         public void BasicRegistration()
-        => Assert.AreEqual(typeof(SimpleImplementation1),
+        => Assert.AreEqual(typeof(Animal),
             GetType<ISimpleInterface>(
-                typeof(SimpleImplementation1)));
+                typeof(Animal)));
 
         [TestMethod]
         public void BasicDecoratorRegistration()
          => Assert.AreEqual(typeof(SimpleDecorator),
              GetType<ISimpleInterface>(
-                 typeof(SimpleImplementation1),
+                 typeof(Animal),
                  typeof(SimpleDecorator)));
 
         [TestMethod]
@@ -41,7 +41,7 @@ namespace Monument.Test
          => Assert.AreEqual(typeof(SimpleComposite),
              GetType<ISimpleInterface>(
                  typeof(SimpleComposite),
-                 typeof(SimpleImplementation1),
+                 typeof(Animal),
                  typeof(SimpleImplementation2),
                  typeof(SimpleImplementation3)));
 
@@ -70,8 +70,8 @@ namespace Monument.Test
                 typeof(ClosedGenericDecorator),
                 typeof(ClosedGenericNode1));
 
-            var decorator1 = instance as OpenGenericDecorator<SimpleImplementation1> ?? (instance as ClosedGenericDecorator).DecoratedComponent as OpenGenericDecorator<SimpleImplementation1>;
-            var decorator2 = instance as ClosedGenericDecorator ?? (instance as OpenGenericDecorator<SimpleImplementation1>).DecoratedComponent as ClosedGenericDecorator;
+            var decorator1 = instance as OpenGenericDecorator<Animal> ?? (instance as ClosedGenericDecorator).DecoratedComponent as OpenGenericDecorator<Animal>;
+            var decorator2 = instance as ClosedGenericDecorator ?? (instance as OpenGenericDecorator<Animal>).DecoratedComponent as ClosedGenericDecorator;
 
             Assert.IsNotNull(decorator1);
             Assert.IsNotNull(decorator2);
@@ -80,7 +80,7 @@ namespace Monument.Test
         [TestMethod]
         public void MixedCollectionOfOpenAndClosedImplementations()
         {
-            var instances = Get<IEnumerable<IGeneric<SimpleImplementation1>>>(
+            var instances = Get<IEnumerable<IGeneric<Animal>>>(
                 typeof(OpenGenericNode1<>),
                 typeof(ClosedGenericNode1));
 
@@ -94,7 +94,7 @@ namespace Monument.Test
 
         [TestMethod]
         public void OpenGenericCompositeAroundMixedCollectionOfOpenAndClosedImplementations() =>
-            Assert.AreEqual(typeof(OpenGenericComposite<SimpleImplementation1>), GetType<IGeneric<SimpleImplementation1>>(
+            Assert.AreEqual(typeof(OpenGenericComposite<Animal>), GetType<IGeneric<Animal>>(
                 typeof(OpenGenericComposite<>),
                 typeof(OpenGenericNode1<>),
                 typeof(ClosedGenericNode1)));
@@ -133,7 +133,7 @@ namespace Monument.Test
         [TestMethod, Ignore]
         public void WhereDoesTheDecoratorHide()
         {
-            var instance = Get<IGeneric<SimpleImplementation1>>(
+            var instance = Get<IGeneric<Animal>>(
                 typeof(ClosedGenericComposite),
                 typeof(OpenGenericNode1<>),
                 typeof(ClosedGenericDecorator),
@@ -159,7 +159,7 @@ namespace Monument.Test
                 typeof(OpenGenericNode1<>),
                 typeof(ClosedGenericNode1),
                 typeof(ClosedGenericNode4)).Count());
-            Assert.AreEqual(2, Get<IEnumerable<IGeneric<SimpleImplementation1>>>(
+            Assert.AreEqual(2, Get<IEnumerable<IGeneric<Animal>>>(
                 typeof(OpenGenericNode1<>),
                 typeof(ClosedGenericNode1),
                 typeof(ClosedGenericNode4)).Count());
@@ -171,20 +171,20 @@ namespace Monument.Test
             Assert.IsNotNull(Get<IGeneric<SimpleImplementation2>>(
                 typeof(ClosedGenericNode1),
                 typeof(ClosedGenericNode4)));
-            Assert.IsNotNull(Get<IGeneric<SimpleImplementation1>>(
+            Assert.IsNotNull(Get<IGeneric<Animal>>(
                 typeof(ClosedGenericNode1),
                 typeof(ClosedGenericNode4)));
         }
 
         [TestMethod]
         public void ClosedGenericListRegistration() =>
-            Assert.AreEqual(2, Get<IEnumerable<IGeneric<SimpleImplementation1>>>(
+            Assert.AreEqual(2, Get<IEnumerable<IGeneric<Animal>>>(
                 typeof(ClosedGenericNode1),
                 typeof(ClosedGenericNode2)).Count());
 
         //[TestMethod]
         //public void ClosedGenericAdapterRegistration() =>
-        //    Assert.AreEqual(typeof(ClosedGenericAdapter), GetType<IGeneric<SimpleImplementation1>>(
+        //    Assert.AreEqual(typeof(ClosedGenericAdapter), GetType<IGeneric<Animal>>(
         //        typeof(ClosedGenericAdapter),
         //        typeof(ClosedGenericImplementation4)));
     }
