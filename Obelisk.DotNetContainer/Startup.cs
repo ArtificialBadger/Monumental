@@ -11,6 +11,7 @@ using Monument.DotNetContainer;
 using Monument.Factories;
 using Monument.Types;
 using Monument.Types.OpenGeneric;
+using Monument.Types.Generic;
 using Monument.Types.Utility;
 using Obelisk.Services;
 using System;
@@ -37,11 +38,11 @@ namespace Obelisk.DotNetContainer
                 .Except(new[] { 
                     typeof(OpenGenericDecorator<>), // Generic Decorators not supported
                     typeof(ClosedGenericDecorator),
-                    typeof(ClosedGenericAdapter),
-                    typeof(ClosedGenericImplementation1), // Closed Generic Implementations of Open Generics not supported
-                    typeof(ClosedGenericImplementation2),
-                    typeof(ClosedGenericImplementation3),
-                    typeof(ClosedGenericImplementation4),
+                    //typeof(ClosedGenericAdapter),
+                    typeof(ClosedGenericNode1), // Closed Generic Implementations of Open Generics not supported
+                    typeof(ClosedGenericNode2),
+                    typeof(ClosedGenericNode3),
+                    typeof(ClosedGenericNode4),
                     typeof(SimpleComposite), // Composites not supported (Mistakingly causes circular dependencies)
                     typeof(SimpleDecorator), // Decorators not supported (Potentially can add support with Scrutor)
                     typeof(ClosedGenericImplementation) // Closed Generic Implementations of Open Generic Interfaces are not supported (Simple Injector does indeed support this)

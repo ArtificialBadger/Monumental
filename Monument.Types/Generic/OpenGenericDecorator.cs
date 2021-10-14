@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Monument.Types
+namespace Monument.Types.Generic
 {
-    public class OpenGenericDecorator<T> : IGenericInterface<T>
+    public class OpenGenericDecorator<T> : IGeneric<T>
     {
-        public IGenericInterface<T> Inner { get; }
+        public IGeneric<T> DecoratedComponent { get; }
 
-        public OpenGenericDecorator(IGenericInterface<T> d) { Inner = d; }
+        public OpenGenericDecorator(IGeneric<T> decoratedComponent) { DecoratedComponent = decoratedComponent; }
     }
 }

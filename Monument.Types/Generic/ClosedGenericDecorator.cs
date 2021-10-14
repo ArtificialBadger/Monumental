@@ -1,13 +1,17 @@
-﻿using System;
+﻿using Monument.Types.Utility;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Monument.Types
+namespace Monument.Types.Generic
 {
-    public class ClosedGenericDecorator : IGenericInterface<SimpleImplementation1>
+    public class ClosedGenericDecorator : IGeneric<Animal>
     {
-        public IGenericInterface<SimpleImplementation1> Inner { get; }
+        public IGeneric<Animal> DecoratedComponent { get; }
 
-        public ClosedGenericDecorator(IGenericInterface<SimpleImplementation1> d) { this.Inner = d; }
+        public ClosedGenericDecorator(IGeneric<Animal> decoratedComponent)
+        {
+            this.DecoratedComponent = decoratedComponent;
+        }
     }
 }

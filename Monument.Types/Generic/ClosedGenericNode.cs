@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Monument.Types.GenericComposite
+namespace Monument.Types.Generic
 {
     public class ClosedGenericNode1 : IGeneric<Animal> { }
     public class ClosedGenericNode2 : IGeneric<Animal> { }

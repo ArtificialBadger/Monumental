@@ -1,12 +1,22 @@
-﻿using System;
+﻿using Monument.Types.Utility;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
-namespace Monument.Types
+namespace Monument.Types.Generic
 {
-    public class OpenGenericComposite<T> : IGenericInterface<T>
+    public class OpenGenericComposite<T> : IGeneric<T>
     {
-        public IEnumerable<IGenericInterface<T>> Inner { get; }
-        public OpenGenericComposite(IEnumerable<IGenericInterface<T>> nodes) { Inner = nodes; }
+        private readonly IEnumerable<IGeneric<T>> genericNodes;
+
+        public int NodeCount => genericNodes.Count();
+
+        public OpenGenericComposite(IEnumerable<IGeneric<T>> genericNodes)
+        {
+            this.genericNodes = genericNodes;
+        }
+
+
     }
 }
