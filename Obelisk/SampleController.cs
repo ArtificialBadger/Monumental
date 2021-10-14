@@ -19,7 +19,7 @@ namespace Obelisk
         private readonly IConstrainedGeneric<List<Block>, Block> constrainedGeneric;
 
         private readonly IFactory<ITrivialTransientService> transientServiceFactory;
-        //private readonly IFactory<Animal> animalFactory;
+        private readonly IFactory<IInterface> interfaceFactory;
 
         private readonly ITrivialSingletonService trivialSingletonService;
         private readonly ITrivialScopedService trivialScopedService;
@@ -27,10 +27,11 @@ namespace Obelisk
 
         private readonly IService service;
 
-        public SampleController(IConstrainedGeneric<List<Block>, Block> constrainedGeneric, IFactory<ITrivialTransientService> transientServiceFactory, ITrivialSingletonService trivialSingletonService, ITrivialScopedService trivialScopedService, ITrivialTransientService trivialTransientService, IService service)
+        public SampleController(IConstrainedGeneric<List<Block>, Block> constrainedGeneric, IFactory<ITrivialTransientService> transientServiceFactory, IFactory<IInterface> interfaceFactory, ITrivialSingletonService trivialSingletonService, ITrivialScopedService trivialScopedService, ITrivialTransientService trivialTransientService, IService service)
         {
             this.constrainedGeneric = constrainedGeneric;
             this.transientServiceFactory = transientServiceFactory;
+            this.interfaceFactory = interfaceFactory;
             this.trivialSingletonService = trivialSingletonService;
             this.trivialScopedService = trivialScopedService;
             this.trivialTransientService = trivialTransientService;
