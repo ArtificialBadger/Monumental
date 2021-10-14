@@ -6,6 +6,8 @@ using SimpleInjector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Monument.Types.GenericComposite;
+using Monument.Types.Utility;
 
 namespace Monument.Test
 {
@@ -98,11 +100,35 @@ namespace Monument.Test
                 typeof(ClosedGenericImplementation1)));
 
         [TestMethod]
-        public void CompositeAroundMixedCollectionOfOpenAndClosedImplementations() =>
-            Assert.AreEqual(typeof(ClosedGenericComposite), GetType<IGenericInterface<SimpleImplementation1>>(
+        public void CompositeAroundMixedCollectionOfOpenAndClosedImplementations()
+        {
+            var composite = Get<IGeneric<Animal>>(
                 typeof(ClosedGenericComposite),
-                typeof(OpenGenericImplementation1<>),
-                typeof(ClosedGenericImplementation1)));
+                typeof(OpenGenericNode1<>),
+                typeof(OpenGenericNode2<>),
+                typeof(ClosedGenericNode2),
+                typeof(ClosedGenericNode4));
+
+
+            Assert.AreEqual(typeof(ClosedGenericComposite), composite.GetType());
+            Assert.AreEqual(4, (composite as ClosedGenericComposite).NodeCount);
+        }
+
+        [TestMethod]
+        public void CompositeAroundClosedGenericTypes()
+        {
+            var genericComposite = Get<IGeneric<Animal>>(typeof(ClosedGenericNode1), typeof(ClosedGenericNode2), typeof(ClosedGenericComposite));
+
+            Assert.AreEqual(typeof(ClosedGenericComposite), genericComposite.GetType());
+        }
+
+        [TestMethod]
+        public void DecoratedCompositeAroundClosedGenericTypes()
+        {
+            var genericComposite = Get<IGeneric<Animal>>(typeof(ClosedGenericNode1), typeof(ClosedGenericNode2), typeof(ClosedGenericComposite), typeof(ClosedGenericCompositeDecorator));
+
+            Assert.AreEqual(typeof(ClosedGenericCompositeDecorator), genericComposite.GetType());
+        }
 
         [TestMethod, Ignore]
         public void WhereDoesTheDecoratorHide()
