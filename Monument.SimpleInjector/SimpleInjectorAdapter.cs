@@ -22,7 +22,13 @@ namespace Monument.SimpleInjector
             container.Register(service, implementation, Convert(lifestyle));
             return this;
         }
-        
+
+        public IRegisterTimeContainer Register(Type service, Func<object> implementationFactory, Lifestyle lifestyle)
+        {
+            container.Register(service, implementationFactory, Convert(lifestyle));
+            return this;
+        }
+
         public IRegisterTimeContainer RegisterDecorator(Type service, Type implementation, Lifestyle lifestyle)
         {
             container.RegisterDecorator(service, implementation, Convert(lifestyle));

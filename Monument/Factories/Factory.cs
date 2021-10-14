@@ -9,9 +9,14 @@ namespace Monument.Factories
     {
         private IRuntimeContainer container;
 
+        public Factory(IRuntimeContainer container)
+        {
+            this.container = container;
+        }
+
         public T Produce()
         {
-            throw new NotImplementedException();
+            return this.container.Resolve<T>();
         }
     }
 }

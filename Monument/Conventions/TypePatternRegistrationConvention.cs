@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using Monument.Attributes;
 using Monument.Containers;
+using Monument.Factories;
 
 namespace Monument.Conventions
 {
     public class TypePatternRegistrationConvention : IRegistrationConvention
     {
-        public IRegisterTimeContainer Register(IEnumerable<Type> types, IRegisterTimeContainer container)
+        public IRegisterTimeContainer Register(IEnumerable<Type> types, IRegisterTimeContainer container, bool autoFuncFactory = false)
         {
             return RegisterTypes(types, container);
         }
 
-        public static IRegisterTimeContainer RegisterTypes(IEnumerable<Type> types, IRegisterTimeContainer container)
+        public static IRegisterTimeContainer RegisterTypes(IEnumerable<Type> types, IRegisterTimeContainer container, bool autoFuncFactory = false)
         {
             var implementationTypes = types
                 .Where(type => !type.IsInterface)
@@ -26,6 +27,11 @@ namespace Monument.Conventions
 
             var byInterface = implementationTypes
                 .GroupBy(type => type.GetInterfaces().Single().ToTypeKey());
+
+            if (autoFuncFactory || true)
+            {
+                container.Register(typeof(IFactory<>), typeof(Factory<>));
+            }
 
             foreach (var implementations in byInterface)
             {
@@ -76,6 +82,7 @@ namespace Monument.Conventions
                         if (normals.Count() == 1)
                         {
                             container.Register(inter, normals.Single());
+                            //container.Register(typeof(IFactory<>).GetGenericTypeDefinition().MakeGenericType(inter), typeof(Factory<>).GetGenericTypeDefinition().MakeGenericType(normals.Single()));
                         }
                     }
 

@@ -55,6 +55,17 @@ namespace Monument.DotNetContainer
             };
         }
 
+        private IServiceCollection RegisterInternal(Type service, Func<object> implementation, Lifestyle lifestyle)
+        {
+            return lifestyle switch
+            {
+                Lifestyle.Transient => this.serviceCollection.AddTransient(service, _ => implementation()),
+                Lifestyle.Scoped => this.serviceCollection.AddScoped(service, _ => implementation()),
+                Lifestyle.Singleton => this.serviceCollection.AddSingleton(service, _ => implementation()),
+                _ => throw new Exception("No known lifestyle established"), //TODO ArtificialBadger : Custom Exception Type
+            };
+        }
+
         private IServiceCollection RegisterInternal(Type service, IEnumerable<Type> implementations, Lifestyle lifestyle)
         {
             foreach (var implementation in implementations)
@@ -63,6 +74,13 @@ namespace Monument.DotNetContainer
             }
 
             return this.serviceCollection;
+        }
+
+        public IRegisterTimeContainer Register(Type service, Func<object> implementationFactory, Lifestyle lifestyle)
+        {
+            this.RegisterInternal(service, implementationFactory, lifestyle);
+
+            return this;
         }
     }
 }
