@@ -25,15 +25,15 @@ namespace Monument.Test
 
         [TestMethod]
         public void BasicRegistration()
-        => Assert.AreEqual(typeof(Animal),
+        => Assert.AreEqual(typeof(SimpleImplementation1),
             GetType<ISimpleInterface>(
-                typeof(Animal)));
+                typeof(SimpleImplementation1)));
 
         [TestMethod]
         public void BasicDecoratorRegistration()
          => Assert.AreEqual(typeof(SimpleDecorator),
              GetType<ISimpleInterface>(
-                 typeof(Animal),
+                 typeof(SimpleImplementation1),
                  typeof(SimpleDecorator)));
 
         [TestMethod]
@@ -41,7 +41,7 @@ namespace Monument.Test
          => Assert.AreEqual(typeof(SimpleComposite),
              GetType<ISimpleInterface>(
                  typeof(SimpleComposite),
-                 typeof(Animal),
+                 typeof(SimpleImplementation1),
                  typeof(SimpleImplementation2),
                  typeof(SimpleImplementation3)));
 
@@ -106,7 +106,9 @@ namespace Monument.Test
                 typeof(ClosedGenericComposite),
                 typeof(OpenGenericNode1<>),
                 typeof(OpenGenericNode2<>),
+                typeof(ClosedGenericNode1),
                 typeof(ClosedGenericNode2),
+                typeof(ClosedGenericNode3),
                 typeof(ClosedGenericNode4));
 
 
@@ -155,23 +157,31 @@ namespace Monument.Test
         [TestMethod]
         public void ClosedAndOpenGenericListRegistration()
         {
-            Assert.AreEqual(2, Get<IEnumerable<IGeneric<SimpleImplementation2>>>(
+            Assert.AreEqual(3, Get<IEnumerable<IGeneric<Animal>>>(
                 typeof(OpenGenericNode1<>),
                 typeof(ClosedGenericNode1),
+                typeof(ClosedGenericNode2),
+                typeof(ClosedGenericNode3),
                 typeof(ClosedGenericNode4)).Count());
             Assert.AreEqual(2, Get<IEnumerable<IGeneric<Animal>>>(
                 typeof(OpenGenericNode1<>),
+                typeof(ClosedGenericNode2),
+                typeof(ClosedGenericNode3)).Count());
+            Assert.AreEqual(3, Get<IEnumerable<IGeneric<Block>>>(
+                typeof(OpenGenericNode1<>),
                 typeof(ClosedGenericNode1),
+                typeof(ClosedGenericNode2),
+                typeof(ClosedGenericNode3),
                 typeof(ClosedGenericNode4)).Count());
         }
 
         [TestMethod]
         public void ClosedGenericRegistration()
         {
-            Assert.IsNotNull(Get<IGeneric<SimpleImplementation2>>(
+            Assert.IsNotNull(Get<IGeneric<Animal>>(
                 typeof(ClosedGenericNode1),
                 typeof(ClosedGenericNode4)));
-            Assert.IsNotNull(Get<IGeneric<Animal>>(
+            Assert.IsNotNull(Get<IGeneric<Block>>(
                 typeof(ClosedGenericNode1),
                 typeof(ClosedGenericNode4)));
         }
