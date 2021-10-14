@@ -99,6 +99,7 @@ namespace Monument.Conventions
             return container;
         }
 
+        // To Fluent or not to Fluent? That is occasionally the question
         public void RegisterFactory(IRegisterTimeContainer registerTimeContainer, IRuntimeContainer runtimeContainer)
         {
             registerTimeContainer.Register(typeof(IRuntimeContainer), () => runtimeContainer, Lifestyle.Singleton);
