@@ -100,11 +100,17 @@ namespace Monument.Conventions
         }
 
         // To Fluent or not to Fluent? That is occasionally the question
-        public void RegisterFactory(IRegisterTimeContainer registerTimeContainer, IRuntimeContainer runtimeContainer)
+        //public void RegisterFactory(IRegisterTimeContainer registerTimeContainer, IRuntimeContainer runtimeContainer)
+        //{
+        //    registerTimeContainer.Register(typeof(IRuntimeContainer), () => runtimeContainer, Lifestyle.Singleton);
+        //    registerTimeContainer.Register(typeof(IFactory<>), typeof(Factory<>));
+        //}
+
+        public static void RegisterFactory(IRegisterTimeContainer registerTimeContainer, IRuntimeContainer runtimeContainer)
         {
             registerTimeContainer.Register(typeof(IRuntimeContainer), () => runtimeContainer, Lifestyle.Singleton);
             registerTimeContainer.Register(typeof(IFactory<>), typeof(Factory<>));
-        }
+        }    
 
         private class TypeArrayEqualityComparer : IEqualityComparer<Type[]>
         {

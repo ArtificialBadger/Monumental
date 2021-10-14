@@ -4,8 +4,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.VisualBasic;
+using Monument.Containers;
 using Monument.Conventions;
 using Monument.DotNetContainer;
+using Monument.Factories;
 using Monument.Types;
 using Monument.Types.OpenGeneric;
 using Monument.Types.Utility;
@@ -44,17 +47,19 @@ namespace Obelisk.DotNetContainer
                     typeof(ClosedGenericImplementation) // Closed Generic Implementations of Open Generic Interfaces are not supported (Simple Injector does indeed support this)
                 });
 
-            TypePatternRegistrationConvention.RegisterTypes(types, new DotNetContainerAdapter(services));
+            // Due to the splitting of IServiceCollection and IServiceProvider, we cannot use Factory Registrations
+
+            TypePatternRegistrationConvention.RegisterTypes(types, new DotNetRegisterTimeContainerAdapter(services));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IRegisterTimeContainer container)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>

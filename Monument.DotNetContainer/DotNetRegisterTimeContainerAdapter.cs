@@ -7,11 +7,11 @@ using M = Monument;
 
 namespace Monument.DotNetContainer
 {
-    public sealed class DotNetContainerAdapter : IRegisterTimeContainer
+    public sealed class DotNetRegisterTimeContainerAdapter : IRegisterTimeContainer
     {
         private readonly IServiceCollection serviceCollection;
 
-        public DotNetContainerAdapter(IServiceCollection serviceCollection)
+        public DotNetRegisterTimeContainerAdapter(IServiceCollection serviceCollection)
         {
             this.serviceCollection = serviceCollection;
         }
