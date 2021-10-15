@@ -6,6 +6,6 @@ namespace Monument.Conventions
 {
     public interface IRegistrationConvention
     {
-        IRegisterTimeContainer Register(IEnumerable<Type> types, IRegisterTimeContainer container);
+        IRegisterTimeContainer Register(IEnumerable<Type> types);
     }
 }

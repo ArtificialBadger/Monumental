@@ -39,8 +39,9 @@ namespace Obelisk
             });
 
             var containerAdapter = new SimpleInjectorAdapter(container);
-            TypePatternRegistrationConvention.RegisterTypes(typeof(EntryPoint).Assembly.GetTypes().Union(typeof(IService).Assembly.GetTypes()), containerAdapter);
-            TypePatternRegistrationConvention.RegisterFactory(containerAdapter, containerAdapter);
+            new TypePatternRegistrationConvention(containerAdapter)
+                .RegisterTypes(typeof(EntryPoint).Assembly.GetTypes().Union(typeof(IService).Assembly.GetTypes()))
+                .RegisterFactory(containerAdapter);
 
             services.AddMvcCore();
         }

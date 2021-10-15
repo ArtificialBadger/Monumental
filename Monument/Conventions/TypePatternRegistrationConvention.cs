@@ -10,12 +10,20 @@ namespace Monument.Conventions
 {
     public class TypePatternRegistrationConvention : IRegistrationConvention
     {
-        public IRegisterTimeContainer Register(IEnumerable<Type> types, IRegisterTimeContainer container)
+        private readonly IRegisterTimeContainer registerTimeContainer;
+
+        public TypePatternRegistrationConvention(IRegisterTimeContainer registerTimeContainer)
         {
-            return RegisterTypes(types, container);
+            this.registerTimeContainer = registerTimeContainer;
         }
 
-        public static IRegisterTimeContainer RegisterTypes(IEnumerable<Type> types, IRegisterTimeContainer container)
+        public IRegisterTimeContainer Register(IEnumerable<Type> types)
+        {
+            RegisterTypes(types);
+            return registerTimeContainer;
+        }
+
+        public TypePatternRegistrationConvention RegisterTypes(IEnumerable<Type> types)
         {
             var implementationTypes = types
                 .Where(type => !type.IsInterface)
@@ -49,7 +57,7 @@ namespace Monument.Conventions
 
                 if (composites.Any())
                 {
-                    container.Register(inter, composites.Single());
+                    registerTimeContainer.Register(inter, composites.Single());
                 }
                 else
                 {
@@ -63,11 +71,11 @@ namespace Monument.Conventions
 
                                 if (!normal.IsOpenGeneric() && !normals.Any(n => n.IsOpenGeneric()))
                                 {
-                                    container.Register(normal.GetInterfaces().Single(), normal);
+                                    registerTimeContainer.Register(normal.GetInterfaces().Single(), normal);
                                 }
                                 else if (normal.IsOpenGeneric())
                                 {
-                                    container.Register(inter, normal);
+                                    registerTimeContainer.Register(inter, normal);
                                 }
 
                             }
@@ -77,7 +85,7 @@ namespace Monument.Conventions
                     {
                         if (normals.Count() == 1)
                         {
-                            container.Register(inter, normals.Single());
+                            registerTimeContainer.Register(inter, normals.Single());
                         }
                     }
 
@@ -86,29 +94,23 @@ namespace Monument.Conventions
                 // What is this thing for? The above should handle it?
                 if (normals.Any())
                 {
-                    container.RegisterAll(inter, normals);
+                    registerTimeContainer.RegisterAll(inter, normals);
                 }
 
                 foreach (var decorator in decorators)
                 {
-                    container.RegisterDecorator(inter, decorator);
+                    registerTimeContainer.RegisterDecorator(inter, decorator);
                 }
             }
 
-            return container;
+            return this;
         }
 
-        // To Fluent or not to Fluent? That is occasionally the question
-        //public void RegisterFactory(IRegisterTimeContainer registerTimeContainer, IRuntimeContainer runtimeContainer)
-        //{
-        //    registerTimeContainer.Register(typeof(IRuntimeContainer), () => runtimeContainer, Lifestyle.Singleton);
-        //    registerTimeContainer.Register(typeof(IFactory<>), typeof(Factory<>));
-        //}
-
-        public static void RegisterFactory(IRegisterTimeContainer registerTimeContainer, IRuntimeContainer runtimeContainer)
+        public TypePatternRegistrationConvention RegisterFactory(IRuntimeContainer runtimeContainer)
         {
             registerTimeContainer.Register(typeof(IRuntimeContainer), () => runtimeContainer, Lifestyle.Singleton);
             registerTimeContainer.Register(typeof(IFactory<>), typeof(Factory<>));
+            return this;
         }    
 
         private class TypeArrayEqualityComparer : IEqualityComparer<Type[]>

@@ -19,8 +19,8 @@ namespace Monument.Test
             where T : class => Get<T>(types).GetType();
 
         public static T Get<T>(params Type[] types)
-            where T : class => ((new TypePatternRegistrationConvention()
-                .Register(types, new SimpleInjectorAdapter(new Container()))) as Monument.Containers.IConvertableContainer)
+            where T : class => (new TypePatternRegistrationConvention(new SimpleInjectorAdapter(new Container()))
+                .Register(types) as Monument.Containers.IConvertableContainer)
                 .ToRuntimeContainer()
                 .Resolve<T>();
 
