@@ -1,4 +1,5 @@
-﻿using Monument.Types.Utility;
+﻿using Monument.Attributes;
+using Monument.Types.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Text;
 
 namespace Monument.Types.Generic
 {
+    [Ignore]
     public class ClosedGenericComposite : IGeneric<Animal>
     {
         private readonly IEnumerable<IGeneric<Animal>> genericNodes;
@@ -16,7 +18,5 @@ namespace Monument.Types.Generic
         {
             this.genericNodes = genericNodes;
         }
-
-
     }
 }

@@ -78,7 +78,6 @@ namespace Monument.Conventions
                         if (normals.Count() == 1)
                         {
                             container.Register(inter, normals.Single());
-                            //container.Register(typeof(IFactory<>).GetGenericTypeDefinition().MakeGenericType(inter), typeof(Factory<>).GetGenericTypeDefinition().MakeGenericType(normals.Single()));
                         }
                     }
 
