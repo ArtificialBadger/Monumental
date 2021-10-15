@@ -13,4 +13,12 @@
     <ProjectReference Include="..\Monument\Monument.csproj" />
   </ItemGroup>
 
+  <PropertyGroup>
+	<PackageId>Monumental.DotNetContainer</PackageId>
+	<Title>Monumental.DotNetContainer</Title>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Version>1.0.0</Version>
+    <Authors>Isaac Zais, Joseph Ohnstead, William Nadeau</Authors>
+  </PropertyGroup>
+
 </Project>
