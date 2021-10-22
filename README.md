@@ -9,7 +9,7 @@ convention.Register(Assembly.GetExecutingAssembly().GetTypes());
 convention.RegisterFactory(adapter);
 ```
 
-##Attributes
+## Attributes
 `[Transient]` - Default, only needed if you want to explicitly declare your lifestyle. Creates a new instance from the DI container for every resolution.
 `[Singleton]` - Single instance is created and shared by all dependers.
 `[Scoped]` - New instance created per scope. For ASP.Net applications, this will be one instance per api request context.
