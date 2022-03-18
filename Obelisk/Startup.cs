@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Monument.Containers;
 using Monument.Conventions;
+using Monument.Conventions.Settings;
 using Monument.SimpleInjector;
 using Monument.Types;
 using Monument.Types.Utility;

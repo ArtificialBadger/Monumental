@@ -13,7 +13,7 @@ namespace Monument.Conventions
     {
         private readonly IRegisterTimeContainer registerTimeContainer;
 
-        private readonly RegistrationConventionSettings settings;
+        private RegistrationConventionSettings settings;
 
         public TypePatternRegistrationConvention(IRegisterTimeContainer registerTimeContainer)
         {
@@ -22,9 +22,18 @@ namespace Monument.Conventions
 
         public IRegisterTimeContainer Register(IEnumerable<Type> types)
         {
+            this.settings = RegistrationConventionSettings.DefaultSettings;
             RegisterTypes(types);
             return registerTimeContainer;
         }
+
+        public IRegisterTimeContainer Register(IEnumerable<Type> types, RegistrationConventionSettings registrationConventionSettings)
+        {
+            this.settings = registrationConventionSettings;
+            RegisterTypes(types);
+            return registerTimeContainer;
+        }
+
 
         public TypePatternRegistrationConvention RegisterTypes(IEnumerable<Type> types)
         {
@@ -114,11 +123,6 @@ namespace Monument.Conventions
             registerTimeContainer.Register(typeof(IRuntimeContainer), () => runtimeContainer, Lifestyle.Singleton);
             registerTimeContainer.Register(typeof(IFactory<>), typeof(Factory<>));
             return this;
-        }
-
-        public IRegisterTimeContainer UseSettings(RegistrationConventionSettings registrationConventionSettings)
-        {
-            throw new NotImplementedException(); // Because I am bad at what I do
         }
 
         private class TypeArrayEqualityComparer : IEqualityComparer<Type[]>

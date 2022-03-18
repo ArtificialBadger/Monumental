@@ -9,6 +9,6 @@ namespace Monument.Conventions
     {
         IRegisterTimeContainer Register(IEnumerable<Type> types);
 
-        IRegisterTimeContainer UseSettings(RegistrationConventionSettings registrationConventionSettings);
+        IRegisterTimeContainer Register(IEnumerable<Type> types, RegistrationConventionSettings registrationConventionSettings);
     }
 }

@@ -10,6 +10,7 @@ using Monument.Types.Generic;
 using Monument.Types.Utility;
 using Monument.Types.FactoryDecoration;
 using Monument.Types.AbstractClasses;
+using Monument.Conventions.Settings;
 
 namespace Monument.Test
 {
@@ -22,6 +23,12 @@ namespace Monument.Test
         public static T Get<T>(params Type[] types)
             where T : class => (new TypePatternRegistrationConvention(new SimpleInjectorAdapter(new Container()))
                 .Register(types) as Monument.Containers.IConvertableContainer)
+                .ToRuntimeContainer()
+                .Resolve<T>();
+
+        public static T Get<T>(RegistrationConventionSettings settings, params Type[] types)
+            where T : class => (new TypePatternRegistrationConvention(new SimpleInjectorAdapter(new Container()))
+                .Register(types, settings) as Monument.Containers.IConvertableContainer)
                 .ToRuntimeContainer()
                 .Resolve<T>();
 
