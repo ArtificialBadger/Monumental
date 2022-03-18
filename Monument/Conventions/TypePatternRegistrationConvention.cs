@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using Monument.Attributes;
 using Monument.Containers;
+using Monument.Conventions.Settings;
 using Monument.Factories;
 
 namespace Monument.Conventions
@@ -11,6 +12,8 @@ namespace Monument.Conventions
     public class TypePatternRegistrationConvention : IRegistrationConvention
     {
         private readonly IRegisterTimeContainer registerTimeContainer;
+
+        private readonly RegistrationConventionSettings settings;
 
         public TypePatternRegistrationConvention(IRegisterTimeContainer registerTimeContainer)
         {
@@ -111,7 +114,12 @@ namespace Monument.Conventions
             registerTimeContainer.Register(typeof(IRuntimeContainer), () => runtimeContainer, Lifestyle.Singleton);
             registerTimeContainer.Register(typeof(IFactory<>), typeof(Factory<>));
             return this;
-        }    
+        }
+
+        public IRegisterTimeContainer UseSettings(RegistrationConventionSettings registrationConventionSettings)
+        {
+            throw new NotImplementedException(); // Because I am bad at what I do
+        }
 
         private class TypeArrayEqualityComparer : IEqualityComparer<Type[]>
         {
