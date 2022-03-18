@@ -12,7 +12,6 @@ namespace Obelisk.SimpleInjector.Example
         string Resolve();
     }
 
-    [Scoped]
     public class ExampleRepository : IExampleRepository
     {
         private readonly Guid InstanceId = Guid.NewGuid();

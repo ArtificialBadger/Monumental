@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Obelisk.SimpleInjector.Example
 {
-    [Route("Example")]
+    [Route("")]
     [ApiController]
     public class ExampleController : ControllerBase
     {

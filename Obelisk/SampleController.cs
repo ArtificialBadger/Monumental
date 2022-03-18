@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Obelisk
 {
-    [Route("")]
+    [Route("Sample")]
     [ApiController]
     public class SampleController : ControllerBase
     {

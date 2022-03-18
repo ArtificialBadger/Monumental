@@ -9,6 +9,7 @@ using System.Linq;
 using Monument.Types.Generic;
 using Monument.Types.Utility;
 using Monument.Types.FactoryDecoration;
+using Monument.Types.AbstractClasses;
 
 namespace Monument.Test
 {
@@ -62,6 +63,10 @@ namespace Monument.Test
              GetType<IGeneric<string>>(
                  typeof(OpenGenericDecorator<>),
                  typeof(OpenGenericNode1<>)));
+
+        [TestMethod]
+        [ExpectedException(typeof(ActivationException))]
+        public void AbstractClassIsNotRegistered() => GetType<AbstractService>();
 
         [TestMethod]
         public void MixedDecorators()
