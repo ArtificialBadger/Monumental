@@ -28,35 +28,23 @@ jobs:
     - name: Publish Monumental NuGet
       uses: brandedoutcast/publish-nuget@v2.5.4
       with:
-        # Filepath of the project to be packaged, relative to root of repository
         PROJECT_FILE_PATH: Monument/Monument.csproj
-        # NuGet package id, used for version detection & defaults to project name
         PACKAGE_NAME: Monumental
-        # API key to authenticate with NuGet server
         NUGET_KEY: ${{ secrets.NUGET_PUBLISH_MONUMENTAL }}
-        # Flag to toggle pushing symbols along with nuget package to the server, disabled by default
         #INCLUDE_SYMBOLS: true
         
     - name: Publish Monumental.SimpleInjector NuGet
       uses: brandedoutcast/publish-nuget@v2.5.4
       with:
-        # Filepath of the project to be packaged, relative to root of repository
         PROJECT_FILE_PATH: Monument.SimpleInjector/Monument.SimpleInjector.csproj
-        # NuGet package id, used for version detection & defaults to project name
         PACKAGE_NAME: Monumental.SimpleInjector
-        # Filepath with version info, relative to root of repository & defaults to PROJECT_FILE_PATH
-        # VERSION_FILE_PATH: # optional
-        # Regex pattern to extract version info in a capturing group
-        #VERSION_REGEX: # optional, default is ^\s*<Version>(.*)<\/Version>\s*$
-        # Useful with external providers like Nerdbank.GitVersioning, ignores VERSION_FILE_PATH & VERSION_REGEX
-        #VERSION_STATIC: # optional
-        # Flag to toggle git tagging, enabled by default
-        #TAG_COMMIT: # optional, default is true
-        # Format of the git tag, [*] gets replaced with actual version
-        #TAG_FORMAT: # optional, default is v*
-        # API key to authenticate with NuGet server
         NUGET_KEY: ${{ secrets.NUGET_PUBLISH_MONUMENTAL }}
-        # NuGet server uri hosting the packages, defaults to https://api.nuget.org
-        #NUGET_SOURCE: # optional, default is https://api.nuget.org
-        # Flag to toggle pushing symbols along with nuget package to the server, disabled by default
+        #INCLUDE_SYMBOLS: true
+        
+    - name: Publish Monumental.DotNetContainer NuGet
+      uses: brandedoutcast/publish-nuget@v2.5.4
+      with:
+        PROJECT_FILE_PATH: Monument.DotNetContainer/Monument.DotNetContainer.csproj
+        PACKAGE_NAME: Monumental.DotNetContainer
+        NUGET_KEY: ${{ secrets.NUGET_PUBLISH_MONUMENTAL }}
         #INCLUDE_SYMBOLS: true

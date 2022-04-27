@@ -1,6 +1,8 @@
 # Monument
 A IoC container agnostic dependency injection registration engine that prioritizes using conventions on type-patterns over other registration methods.
 
+[![Build Test and Publish](https://github.com/ArtificialBadger/Monumental/actions/workflows/dotnet.yml/badge.svg)](https://github.com/ArtificialBadger/Monumental/actions/workflows/dotnet.yml)
+
 ## Usage (SimpleInjector)
 ```
 var adapter = new SimpleInjectorAdapter(container);
