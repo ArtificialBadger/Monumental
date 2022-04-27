@@ -31,7 +31,7 @@ jobs:
         PROJECT_FILE_PATH: Monument/Monument.csproj
         PACKAGE_NAME: Monumental
         NUGET_KEY: ${{ secrets.NUGET_PUBLISH_MONUMENTAL }}
-        INCLUDE_SYMBOLS: true
+        #INCLUDE_SYMBOLS: true
         
     - name: Publish Monumental.SimpleInjector NuGet
       uses: brandedoutcast/publish-nuget@v2.5.4
@@ -39,7 +39,7 @@ jobs:
         PROJECT_FILE_PATH: Monument.SimpleInjector/Monument.SimpleInjector.csproj
         PACKAGE_NAME: Monumental.SimpleInjector
         NUGET_KEY: ${{ secrets.NUGET_PUBLISH_MONUMENTAL }}
-        INCLUDE_SYMBOLS: true
+        #INCLUDE_SYMBOLS: true
         
     - name: Publish Monumental.DotNetContainer NuGet
       uses: brandedoutcast/publish-nuget@v2.5.4
@@ -47,4 +47,4 @@ jobs:
         PROJECT_FILE_PATH: Monument.DotNetContainer/Monument.DotNetContainer.csproj
         PACKAGE_NAME: Monumental.DotNetContainer
         NUGET_KEY: ${{ secrets.NUGET_PUBLISH_MONUMENTAL }}
-        INCLUDE_SYMBOLS: true
+        #INCLUDE_SYMBOLS: true
