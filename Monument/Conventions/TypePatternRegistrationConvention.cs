@@ -41,53 +41,55 @@ namespace Monument.Conventions
                 .Where(type => !type.IsInterface)
                 .Where(type => !type.IsAbstract)
                 .Where(type => type.IsPublic)
+                .Where(type => type.IsClass)
                 .Where(type => !type.IsNested)
                 .Where(type => type.GetInterfaces().Count() == 1)
                 .Where(type => type.GetConstructors().Count() == 1)
+                .Where(type => type.BaseType != typeof(Exception))
                 .Where(type => !type.CustomAttributes.Any(a => a.AttributeType == typeof(IgnoreAttribute)));
 
-            var byInterface = implementationTypes
+            var interfaceImplementationGroups = implementationTypes
                 .GroupBy(type => type.GetInterfaces().Single().ToTypeKey());
 
-            foreach (var implementations in byInterface)
+            foreach (var interfaceImplementationGroup in interfaceImplementationGroups)
             {
-                var inter = implementations.Key;
+                var implmentationInterface = interfaceImplementationGroup.Key;
 
-                var composites = implementations.Where(type => type.IsComposite());
-                var decorators = implementations.Where(type => type.IsDecorator());
+                var composites = interfaceImplementationGroup.Where(type => type.IsComposite());
+                var decorators = interfaceImplementationGroup.Where(type => type.IsDecorator());
 
-                var normals = implementations.Except(composites).Except(decorators);
+                var standardImplementations = interfaceImplementationGroup.Except(composites).Except(decorators);
 
                 if (composites.Count() > 1)
                 {
                     throw new TypePatternRegistrationException("You cannot register more than one composite.");
                 }
-                if (!composites.Any() && !normals.Any())
+                if (!composites.Any() && !standardImplementations.Any())
                 {
                     throw new TypePatternRegistrationException("You cannot register only decorators.");
                 }
 
                 if (composites.Any())
                 {
-                    registerTimeContainer.Register(inter, composites.Single());
+                    registerTimeContainer.Register(implmentationInterface, composites.Single());
                 }
                 else
                 {
-                    if (inter.IsGenericType)
+                    if (implmentationInterface.IsGenericType)
                     {
-                        foreach (var normalSingleGroup in normals.GroupBy(type => type.GetInterfaces().Single().GetGenericArguments(), new TypeArrayEqualityComparer()))
+                        foreach (var normalSingleGroup in standardImplementations.GroupBy(type => type.GetInterfaces().Single().GetGenericArguments(), new TypeArrayEqualityComparer()))
                         {
                             if (normalSingleGroup.Count() == 1)
                             {
                                 var normal = normalSingleGroup.Single();
 
-                                if (!normal.IsOpenGeneric() && !normals.Any(n => n.IsOpenGeneric()))
+                                if (!normal.IsOpenGeneric() && !standardImplementations.Any(n => n.IsOpenGeneric()))
                                 {
                                     registerTimeContainer.Register(normal.GetInterfaces().Single(), normal);
                                 }
                                 else if (normal.IsOpenGeneric())
                                 {
-                                    registerTimeContainer.Register(inter, normal);
+                                    registerTimeContainer.Register(implmentationInterface, normal);
                                 }
 
                             }
@@ -95,23 +97,23 @@ namespace Monument.Conventions
                     }
                     else
                     {
-                        if (normals.Count() == 1)
+                        if (standardImplementations.Count() == 1)
                         {
-                            registerTimeContainer.Register(inter, normals.Single());
+                            registerTimeContainer.Register(implmentationInterface, standardImplementations.Single());
                         }
                     }
 
                 }
 
                 // What is this thing for? The above should handle it?
-                if (normals.Any())
+                if (standardImplementations.Any())
                 {
-                    registerTimeContainer.RegisterAll(inter, normals);
+                    registerTimeContainer.RegisterAll(implmentationInterface, standardImplementations);
                 }
 
                 foreach (var decorator in decorators)
                 {
-                    registerTimeContainer.RegisterDecorator(inter, decorator);
+                    registerTimeContainer.RegisterDecorator(implmentationInterface, decorator);
                 }
             }
 
