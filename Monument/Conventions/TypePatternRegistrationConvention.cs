@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using Monument.Attributes;
 using Monument.Containers;
 using Monument.Conventions.Settings;
@@ -37,13 +38,15 @@ namespace Monument.Conventions
 
         public TypePatternRegistrationConvention RegisterTypes(IEnumerable<Type> types)
         {
+            var excludedAssemblies = new List<Assembly>() { typeof(IEquatable<>).Assembly };
+
             var implementationTypes = types
                 .Where(type => !type.IsInterface)
                 .Where(type => !type.IsAbstract)
                 .Where(type => type.IsPublic)
                 .Where(type => type.IsClass)
                 .Where(type => !type.IsNested)
-                .Where(type => type.GetInterfaces().Count() == 1)
+                .Where(type => type.GetInterfaces().Count() == 1 && excludedAssemblies.All(a => type.GetInterfaces().Single().Assembly != a))
                 .Where(type => type.GetConstructors().Count() == 1)
                 .Where(type => type.BaseType != typeof(Exception))
                 .Where(type => !type.CustomAttributes.Any(a => a.AttributeType == typeof(IgnoreAttribute)));
