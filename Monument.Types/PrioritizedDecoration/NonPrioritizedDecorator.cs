@@ -7,11 +7,11 @@ namespace Monument.Types.PrioritizedDecoration
 {
     public sealed class NonPrioritizedDecorator : IDecoratableInterface
     {
-        private readonly IDecoratableInterface decoratedInterface;
+        public IDecoratableInterface DecoratedInterface { get; }
 
         public NonPrioritizedDecorator(IDecoratableInterface decoratedInterface)
         {
-            this.decoratedInterface = decoratedInterface;
+            this.DecoratedInterface = decoratedInterface;
         }
     }
 }

@@ -8,11 +8,11 @@ namespace Monument.Types.PrioritizedDecoration
     [RegistrationPriority(RegistrationPriorityAttribute.HIGH_PRIORITY)]
     public sealed class HighPriorityDecorator : IDecoratableInterface
     {
-        private readonly IDecoratableInterface decoratedInterface;
+        public IDecoratableInterface DecoratedInterface { get; }
 
         public HighPriorityDecorator(IDecoratableInterface decoratedInterface)
         {
-            this.decoratedInterface = decoratedInterface;
+            this.DecoratedInterface = decoratedInterface;
         }
     }
 }

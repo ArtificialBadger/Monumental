@@ -175,6 +175,15 @@ namespace Monument.Test
                 );
 
             Assert.AreEqual(typeof(HighPriorityDecorator), decoratableInterface.GetType());
+            var firstDecorator = decoratableInterface as HighPriorityDecorator;
+
+            Assert.AreEqual(typeof(NonPrioritizedDecorator), firstDecorator.DecoratedInterface.GetType());
+            var secondDecorator = firstDecorator.DecoratedInterface as NonPrioritizedDecorator;
+
+            Assert.AreEqual(typeof(LowPriorityDecorator), secondDecorator.DecoratedInterface.GetType());
+            var thirdDecorator = secondDecorator.DecoratedInterface as LowPriorityDecorator;
+
+            Assert.AreEqual(typeof(UnderlyingImplementation), thirdDecorator.DecoratedInterface.GetType());
         }
 
         [TestMethod]
@@ -188,6 +197,15 @@ namespace Monument.Test
                 );
 
             Assert.AreEqual(typeof(HighPriorityDecorator), decoratableInterface.GetType());
+            var firstDecorator = decoratableInterface as HighPriorityDecorator;
+
+            Assert.AreEqual(typeof(NonPrioritizedDecorator), firstDecorator.DecoratedInterface.GetType());
+            var secondDecorator = firstDecorator.DecoratedInterface as NonPrioritizedDecorator;
+
+            Assert.AreEqual(typeof(LowPriorityDecorator), secondDecorator.DecoratedInterface.GetType());
+            var thirdDecorator = secondDecorator.DecoratedInterface as LowPriorityDecorator;
+
+            Assert.AreEqual(typeof(UnderlyingImplementation), thirdDecorator.DecoratedInterface.GetType());
         }
 
         [TestMethod, Ignore]
