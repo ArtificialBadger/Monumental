@@ -11,6 +11,7 @@ using Monument.Types.Utility;
 using Monument.Types.FactoryDecoration;
 using Monument.Types.AbstractClasses;
 using Monument.Conventions.Settings;
+using Monument.Types.Records;
 using Monument.Types.PrioritizedDecoration;
 
 namespace Monument.Test
@@ -38,6 +39,12 @@ namespace Monument.Test
         => Assert.AreEqual(typeof(SimpleImplementation1),
             GetType<ISimpleInterface>(
                 typeof(SimpleImplementation1)));
+
+        [TestMethod]
+        [ExpectedException(typeof(ActivationException))]
+        public void RecordsAreNotRegistered()
+        => Assert.AreEqual(typeof(ExampleRecord),
+            GetType<ExampleRecord>(typeof(ExampleRecord)));
 
         [TestMethod]
         public void BasicDecoratorRegistration()
