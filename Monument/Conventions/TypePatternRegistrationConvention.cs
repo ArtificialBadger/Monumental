@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using Monument.Attributes;
 using Monument.Containers;
 using Monument.Conventions.Settings;
@@ -111,7 +112,7 @@ namespace Monument.Conventions
                     registerTimeContainer.RegisterAll(implmentationInterface, standardImplementations);
                 }
 
-                foreach (var decorator in decorators)
+                foreach (var decorator in decorators.OrderBy(d => d.GetCustomAttribute<RegistrationPriorityAttribute>()?.Priority ?? RegistrationPriorityAttribute.NORMAL_PRIORITY).ThenBy(d => d.Name))
                 {
                     registerTimeContainer.RegisterDecorator(implmentationInterface, decorator);
                 }

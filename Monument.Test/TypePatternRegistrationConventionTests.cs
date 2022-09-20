@@ -11,6 +11,7 @@ using Monument.Types.Utility;
 using Monument.Types.FactoryDecoration;
 using Monument.Types.AbstractClasses;
 using Monument.Conventions.Settings;
+using Monument.Types.PrioritizedDecoration;
 
 namespace Monument.Test
 {
@@ -154,6 +155,32 @@ namespace Monument.Test
             var genericComposite = Get<IGeneric<Animal>>(typeof(ClosedGenericNode1), typeof(ClosedGenericNode2), typeof(LocalClosedGenericComposite), typeof(ClosedGenericDecorator));
 
             Assert.AreEqual(typeof(ClosedGenericDecorator), genericComposite.GetType());
+        }
+
+        [TestMethod]
+        public void DecorationOrderFromAttributesIsPreserved()
+        {
+            var decoratableInterface = Get<IDecoratableInterface>(
+                typeof(LowPriorityDecorator),
+                typeof(HighPriorityDecorator),
+                typeof(NonPrioritizedDecorator),
+                typeof(UnderlyingImplementation)
+                );
+
+            Assert.AreEqual(typeof(HighPriorityDecorator), decoratableInterface.GetType());
+        }
+
+        [TestMethod]
+        public void DecorationOrderFromAttributesIsPreservedInDifferentOrder()
+        {
+            var decoratableInterface = Get<IDecoratableInterface>(
+                typeof(HighPriorityDecorator),
+                typeof(NonPrioritizedDecorator),
+                typeof(LowPriorityDecorator),
+                typeof(UnderlyingImplementation)
+                );
+
+            Assert.AreEqual(typeof(HighPriorityDecorator), decoratableInterface.GetType());
         }
 
         [TestMethod, Ignore]

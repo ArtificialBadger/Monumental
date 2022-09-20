@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Monument.Factories;
 using Monument.Types.ConstratinedGeneric;
+using Monument.Types.PrioritizedDecoration;
 using Monument.Types.Trivial;
 using Monument.Types.Utility;
 using Obelisk.Services;
@@ -25,9 +26,11 @@ namespace Obelisk
         private readonly ITrivialScopedService trivialScopedService;
         private readonly ITrivialTransientService trivialTransientService;
 
+        private readonly IDecoratableInterface decoratableInterface;
+
         private readonly IService service;
 
-        public SampleController(IConstrainedGeneric<List<Block>, Block> constrainedGeneric, IFactory<ITrivialTransientService> transientServiceFactory, IFactory<IInterface> interfaceFactory, ITrivialSingletonService trivialSingletonService, ITrivialScopedService trivialScopedService, ITrivialTransientService trivialTransientService, IService service)
+        public SampleController(IConstrainedGeneric<List<Block>, Block> constrainedGeneric, IFactory<ITrivialTransientService> transientServiceFactory, IFactory<IInterface> interfaceFactory, ITrivialSingletonService trivialSingletonService, ITrivialScopedService trivialScopedService, ITrivialTransientService trivialTransientService, IDecoratableInterface decoratableInterface, IService service)
         {
             this.constrainedGeneric = constrainedGeneric;
             this.transientServiceFactory = transientServiceFactory;
@@ -35,6 +38,7 @@ namespace Obelisk
             this.trivialSingletonService = trivialSingletonService;
             this.trivialScopedService = trivialScopedService;
             this.trivialTransientService = trivialTransientService;
+            this.decoratableInterface = decoratableInterface;
             this.service = service;
         }
 
