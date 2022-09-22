@@ -17,7 +17,7 @@ using Monument.Types.PrioritizedDecoration;
 namespace Monument.Test
 {
     [TestClass]
-    public class TypePatternRegistrationConventionTests
+    public class SimpleInjectorTypePatternRegistrationConventionTests
     {
         public static Type GetType<T>(params Type[] types)
             where T : class => Get<T>(types).GetType();
@@ -273,19 +273,5 @@ namespace Monument.Test
         //    Assert.AreEqual(typeof(ClosedGenericAdapter), GetType<IGeneric<Animal>>(
         //        typeof(ClosedGenericAdapter),
         //        typeof(ClosedGenericImplementation4)));
-    }
-
-    public class LocalClosedGenericComposite : IGeneric<Animal>
-    {
-        private readonly IEnumerable<IGeneric<Animal>> genericNodes;
-
-        public int NodeCount => genericNodes.Count();
-
-        public LocalClosedGenericComposite(IEnumerable<IGeneric<Animal>> genericNodes)
-        {
-            this.genericNodes = genericNodes;
-        }
-
-
     }
 }

@@ -35,7 +35,6 @@ namespace Monument.Conventions
             return registerTimeContainer;
         }
 
-
         public TypePatternRegistrationConvention RegisterTypes(IEnumerable<Type> types)
         {
             var excludedAssemblies = new List<Assembly>() { typeof(IEquatable<>).Assembly };

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using M = Monument;
+using Scrutor;
 
 namespace Monument.DotNetContainer
 {
@@ -24,9 +25,8 @@ namespace Monument.DotNetContainer
 
         public IRegisterTimeContainer RegisterDecorator(Type service, Type implementation, Lifestyle lifestyle)
         {
-            //throw new Exception(""); //TODO ArtificialBadger : Scrutor Dependency? Handling this internally seems pretty hard to be honest
-            //serviceCollection.RegisterDecorator(service, implementation, Convert(lifestyle));
-            RegisterInternal(service, implementation, lifestyle);
+            // Depending on the Scrutor Nuget for now, but a better solution is to rip the relevant code out of Scrutor instead
+            serviceCollection.Decorate(service, implementation);
             return this;
         }
 
