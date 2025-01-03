@@ -24,7 +24,7 @@ namespace Monument.Test
     {
         public static Type GetType<T>(params Type[] types) where T : class
         {
-            return Get<T>(types)?.GetType() ?? throw new ActivationException();
+            return Get<T>(types)?.GetType() ?? throw new ActivationException(); 
         }
 
         public static T Get<T>(params Type[] types) where T : class
