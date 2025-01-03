@@ -19,7 +19,7 @@
 	<PackageId>Monumental.DotNetContainer</PackageId>
 	<Title>Monumental.DotNetContainer</Title>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>1.4.1</Version>
+    <Version>1.5.0</Version>
     <Authors>Isaac Zais, Joseph Ohnstead, William Nadeau</Authors>
   </PropertyGroup>
 
