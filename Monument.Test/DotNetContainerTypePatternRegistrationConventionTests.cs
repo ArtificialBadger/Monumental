@@ -18,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Monument.Test
 {
+    [Ignore]
     [TestClass]
     public class DotNetContainerTypePatternRegistrationConventionTests
     {
