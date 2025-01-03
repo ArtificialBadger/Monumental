@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using Monument.Attributes;
 using Monument.Containers;
 using Monument.Conventions.Settings;
@@ -37,21 +38,21 @@ namespace Monument.Conventions
 
         public TypePatternRegistrationConvention RegisterTypes(IEnumerable<Type> types)
         {
-            var excludedAssemblies = new List<Assembly>() { typeof(IEquatable<>).Assembly };
+            var excludedAssemblies = new List<Assembly>() { typeof(IEquatable<>).Assembly }; // Setting for allowing more disallowed assemblies? (or only whitelisted assemblies?)
 
             var implementationTypes = types
                 .Where(type => !type.IsInterface)
                 .Where(type => !type.IsAbstract)
-                .Where(type => type.IsPublic)
+                .Where(type => type.IsPublic) // Potentially introduce a setting to allow this
                 .Where(type => type.IsClass)
-                .Where(type => !type.IsNested)
-                .Where(type => type.GetInterfaces().Count() == 1 && excludedAssemblies.All(a => type.GetInterfaces().Single().Assembly != a))
+                .Where(type => !type.IsNested) // Potentially introduce a setting to allow this
+                .Where(type => CheckInterfaces(type, excludedAssemblies))
                 .Where(type => type.GetConstructors().Count() == 1)
                 .Where(type => type.BaseType != typeof(Exception))
                 .Where(type => !type.CustomAttributes.Any(a => a.AttributeType == typeof(IgnoreAttribute)));
 
             var interfaceImplementationGroups = implementationTypes
-                .GroupBy(type => type.GetInterfaces().Single().ToTypeKey());
+                .GroupBy(type => type.GetInterfaces().Except(type.BaseType.GetInterfaces()).Single().ToTypeKey());
 
             foreach (var interfaceImplementationGroup in interfaceImplementationGroups)
             {
@@ -128,6 +129,14 @@ namespace Monument.Conventions
             registerTimeContainer.Register(typeof(IFactory<>), typeof(Factory<>));
             return this;
         }
+
+        private bool CheckInterfaces(Type type, IEnumerable<Assembly> excludedAssemblies)
+        {
+            var baseClassInterfaces = type.BaseType.GetInterfaces();
+            var useableInterfaces = type.GetInterfaces().Except(baseClassInterfaces);
+
+			return (useableInterfaces.Count() == 1 && excludedAssemblies.All(a => useableInterfaces.Single().Assembly != a));
+		}
 
         private class TypeArrayEqualityComparer : IEqualityComparer<Type[]>
         {
