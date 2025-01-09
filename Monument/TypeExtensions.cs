@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
+using System.Reflection;
 
 namespace Monument
 {
@@ -10,6 +12,17 @@ namespace Monument
         public static Type ToTypeKey(this Type type) => type.IsGenericType ? type.GetGenericTypeDefinition() : type;
 
         public static Type ToOpenGenericTypeKey(this Type type) => type.IsOpenGeneric() ? type.GetGenericTypeDefinition() : type;
+
+        public static IEnumerable<Type> GetRegisterableInterfaces(this Type type, ISet<Assembly> excludedAssemblies = null)
+        {
+            var baseClassInterfaces = type.BaseType?.GetInterfaces() ?? new Type[] { };
+            var types = type.GetInterfaces().Except(baseClassInterfaces);
+
+            if (excludedAssemblies != null)
+                return types.Where(t => !excludedAssemblies.Contains(t.Assembly));
+            else
+                return types;
+        }
 
         public static bool ImplementsInterface(this Type type, Type parentType) => parentType.IsInterface
             && (parentType.IsAssignableFrom(type)
@@ -24,11 +37,11 @@ namespace Monument
             && type.GetConstructors().Single().GetParameters()
                 .Where(p => p.ParameterType.IsGenericType)
                 .Where(p => p.ParameterType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
-                .Any(p => p.ParameterType.GetGenericArguments().Single().ToOpenGenericTypeKey() == type.GetInterfaces().Single().ToOpenGenericTypeKey());
+                .Any(p => p.ParameterType.GetGenericArguments().Single().ToOpenGenericTypeKey() == type.GetRegisterableInterfaces().First().ToOpenGenericTypeKey());
 
         public static bool IsDecorator(this Type type) => type.HasInterfaces()
             && type.GetConstructors().Single().GetParameters()
-                .Any(p => p.ParameterType.ToOpenGenericTypeKey() == type.GetInterfaces().Single().ToOpenGenericTypeKey());
+                .Any(p => p.ParameterType.ToOpenGenericTypeKey() == type.GetRegisterableInterfaces().First().ToOpenGenericTypeKey());
 
         public static Lifestyle GetLifestyle(this Type type)
         {

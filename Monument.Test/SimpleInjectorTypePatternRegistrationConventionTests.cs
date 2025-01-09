@@ -269,30 +269,53 @@ namespace Monument.Test
 				typeof(ClosedGenericNode1),
 				typeof(ClosedGenericNode2)).Count());
 
-		[TestMethod]
-		public void SpecificInterfaceWithAdditionalBaseClassRegistration() => Assert.AreEqual(typeof(FirstSpecificClass),
-			 GetType<ISpecificInterface>(
-				 typeof(FirstSpecificClass)));
+        [TestMethod]
+        public void SpecificInterfaceWithAdditionalBaseClassRegistration() => Assert.AreEqual(typeof(FirstSpecificClass),
+             GetType<ISpecificInterface>(
+                 typeof(FirstSpecificClass)));
 
-		[TestMethod]
-		public void MultipleSpecificInterfaceWithAdditionalBaseClassRegistration()
-		=> Assert.AreEqual(typeof(FirstSpecificClass),
-			GetType<ISpecificInterface>(
-				typeof(FirstSpecificClass),
-				typeof(SecondSpecificClass))
-			);
+        [TestMethod]
+        public void MultipleSpecificInterfaceWithAdditionalBaseClassRegistration()
+        => Assert.AreEqual(typeof(FirstSpecificClass),
+            GetType<ISpecificInterface>(
+                typeof(FirstSpecificClass),
+                typeof(SecondSpecificClass))
+            );
 
-		[TestMethod]
-		public void ZZMultipleSpecificInterfaceWithAdditionalBaseClassesRegistration()
-			=> Assert.AreEqual(typeof(SecondSpecificClass),
-			GetType<ISecondSpecificInterface>(
-				//typeof(FirstSpecificClass),
-				typeof(SecondSpecificClass))
-			);
+        [TestMethod]
+        public void MultipleSpecificInterfaceWithAdditionalBaseClassesRegistration()
+            => Assert.AreEqual(typeof(SecondSpecificClass),
+            GetType<ISecondSpecificInterface>(
+                //typeof(FirstSpecificClass),
+                typeof(SecondSpecificClass))
+            );
+
+        [TestMethod]
+        public void SpecificInterfaceWithAdditionalBaseClassRegistrationAndParameters() => Assert.AreEqual(typeof(Monument.Types.MultipleInterfaceConstructor.FirstSpecificClass),
+             GetType<Monument.Types.MultipleInterfaceConstructor.ISpecificInterface>(
+                 typeof(Monument.Types.MultipleInterfaceConstructor.FirstSpecificClass), typeof(Monument.Types.MultipleInterfaceConstructor.Service)));
+
+        [TestMethod]
+        public void MultipleSpecificInterfaceWithAdditionalBaseClassRegistrationWithParameters()
+        => Assert.AreEqual(typeof(Monument.Types.MultipleInterfaceConstructor.FirstSpecificClass),
+            GetType<Monument.Types.MultipleInterfaceConstructor.ISpecificInterface>(
+                typeof(Monument.Types.MultipleInterfaceConstructor.FirstSpecificClass),
+                typeof(Monument.Types.MultipleInterfaceConstructor.SecondSpecificClass),
+                typeof(Monument.Types.MultipleInterfaceConstructor.Service))
+            );
+
+        [TestMethod]
+        public void MultipleSpecificInterfaceWithAdditionalBaseClassesRegistrationWithParameters()
+            => Assert.AreEqual(typeof(Monument.Types.MultipleInterfaceConstructor.SecondSpecificClass),
+            GetType<Monument.Types.MultipleInterfaceConstructor.ISecondSpecificInterface>(
+                typeof(Monument.Types.MultipleInterfaceConstructor.SecondSpecificClass),
+                typeof(Monument.Types.MultipleInterfaceConstructor.Service))
+            );
 
 
-		// Class should not be resolvable via it's base classes interface.
-		[TestMethod]
+
+        // Class should not be resolvable via it's base classes interface.
+        [TestMethod]
 		[ExpectedException(typeof(ActivationException))]
 		public void BaseClassInterfaceRegistration()
 			=> Assert.AreEqual(typeof(FirstSpecificClass),
