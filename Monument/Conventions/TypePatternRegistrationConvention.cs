@@ -39,6 +39,7 @@ namespace Monument.Conventions
         public TypePatternRegistrationConvention RegisterTypes(IEnumerable<Type> types)
         {
             var excludedAssemblies = new List<Assembly>() { typeof(IEquatable<>).Assembly }; // Setting for allowing more disallowed assemblies? (or only whitelisted assemblies?)
+            var excludedAssembliesSet = excludedAssemblies.ToHashSet();
 
             var implementationTypes = types
                 .Where(type => !type.IsInterface)
@@ -46,13 +47,13 @@ namespace Monument.Conventions
                 .Where(type => type.IsPublic) // Potentially introduce a setting to allow this
                 .Where(type => type.IsClass)
                 .Where(type => !type.IsNested) // Potentially introduce a setting to allow this
-                .Where(type => CheckInterfaces(type, excludedAssemblies))
+                .Where(type => GetRegisterableInterfaces(type, excludedAssembliesSet).Count() > 0)
                 .Where(type => type.GetConstructors().Count() == 1)
                 .Where(type => type.BaseType != typeof(Exception))
                 .Where(type => !type.CustomAttributes.Any(a => a.AttributeType == typeof(IgnoreAttribute)));
 
             var interfaceImplementationGroups = implementationTypes
-                .GroupBy(type => type.GetInterfaces().Except(type.BaseType.GetInterfaces()).Single().ToTypeKey());
+                .GroupBy(type => GetRegisterableInterfaces(type, excludedAssembliesSet).First().ToTypeKey());
 
             foreach (var interfaceImplementationGroup in interfaceImplementationGroups)
             {
@@ -80,7 +81,7 @@ namespace Monument.Conventions
                 {
                     if (implmentationInterface.IsGenericType)
                     {
-                        foreach (var normalSingleGroup in standardImplementations.GroupBy(type => type.GetInterfaces().Single().GetGenericArguments(), new TypeArrayEqualityComparer()))
+                        foreach (var normalSingleGroup in standardImplementations.GroupBy(type => GetRegisterableInterfaces(type, excludedAssembliesSet).First().GetGenericArguments(), new TypeArrayEqualityComparer()))
                         {
                             if (normalSingleGroup.Count() == 1)
                             {
@@ -88,7 +89,7 @@ namespace Monument.Conventions
 
                                 if (!normal.IsOpenGeneric() && !standardImplementations.Any(n => n.IsOpenGeneric()))
                                 {
-                                    registerTimeContainer.Register(normal.GetInterfaces().Single(), normal);
+                                    registerTimeContainer.Register(GetRegisterableInterfaces(normal, excludedAssembliesSet).First(), normal);
                                 }
                                 else if (normal.IsOpenGeneric())
                                 {
@@ -137,6 +138,12 @@ namespace Monument.Conventions
 
 			return (useableInterfaces.Count() == 1 && excludedAssemblies.All(a => useableInterfaces.Single().Assembly != a));
 		}
+
+        private IEnumerable<Type> GetRegisterableInterfaces(Type type, ISet<Assembly> excludedAssemblies)
+        {
+            var baseClassInterfaces = type.BaseType.GetInterfaces();
+            return type.GetInterfaces().Except(baseClassInterfaces).Where(t => !excludedAssemblies.Contains(t.Assembly));
+        }
 
         private class TypeArrayEqualityComparer : IEqualityComparer<Type[]>
         {
